@@ -2,7 +2,10 @@ export default function Login() {
   return (
     <div className="grid place-items-center h-screen">
       <form className="flex flex-col gap-y-4 p-12 bg-zinc-950 bg-opacity-50 rounded-md border border-zinc-800">
-        <h1 className="text-2xl font-bold">Iniciar sesión</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Iniciar sesión</h1>
+          <p className="text-xs text-slate-300">Ingresa tus credenciales</p>
+        </div>
         <label className="flex flex-col">
           <span className="text-sm mb-2">Correo Electrónico</span>
           <input
@@ -21,7 +24,7 @@ export default function Login() {
         </label>
         <button
           type="submit"
-          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 rounded-md font-bold"
+          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 rounded-md font-bold mt-3"
         >
           Iniciar sesión
         </button>
