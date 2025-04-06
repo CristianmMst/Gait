@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "pkgroll",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "pkgroll": "^2.12.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
