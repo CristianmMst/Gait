@@ -9,17 +9,21 @@
     "start": "node dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Cristian Mora",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/node": "^22.14.0",
     "pkgroll": "^2.12.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.22"
   }
 }
