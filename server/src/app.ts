@@ -1,3 +1,4 @@
+import { AppDataSource } from "./database";
 import express, { Application, Router } from "express";
 
 interface AppOptions {
@@ -7,7 +8,7 @@ interface AppOptions {
 
 class App {
   private port: number;
-  private app: Application = express();
+  private readonly app: Application = express();
 
   constructor({ port, routes }: AppOptions) {
     this.port = port || 3000;
@@ -17,6 +18,13 @@ class App {
   }
 
   start() {
+    AppDataSource.initialize()
+      .then(() => {
+        console.log("Database connected");
+      })
+      .catch((error) => {
+        console.log("Error connecting to database", error);
+      });
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${this.port}`);
     });

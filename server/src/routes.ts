@@ -1,14 +1,12 @@
 import { Router } from "express";
+import AuthRoutes from "./modules/auth/authRoutes";
 
 class AppRouter {
   private static router: Router = Router();
 
-  constructor() {}
-
   static get routes() {
-    this.router.get("/", (_, res) => {
-      res.send("Hello World!");
-    });
+    this.router.use("/auth", AuthRoutes.routes);
+
     return this.router;
   }
 }

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import App from "./app";
 import AppRouter from "./routes";
 
