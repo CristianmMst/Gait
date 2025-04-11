@@ -3,6 +3,10 @@ import { NextFunction, Request, Response } from "express";
 import EmployeeService from "../employees/employeeService";
 import DistributorService from "../distributors/distributorService";
 
+import { UserNotFound } from "../shared/errors/UserNotFound";
+import { InvalidCredentials } from "../shared/errors/InvalidCredentials";
+import { UserAlreadyExists } from "../shared/errors/UserAlreadyExists";
+
 enum TYPE_USERS {
   EMPLOYEE = "EMPLOYEE",
   DISTRIBUTOR = "DISTRIBUTOR",
@@ -19,7 +23,7 @@ class AuthController {
       const employee = await this.employeeService.findOneByEmail(email);
       const distributor = await this.distributorService.findOneByEmail(email);
       if (!distributor && !employee) {
-        throw new Error("Usuario no encontrado");
+        throw new UserNotFound();
       }
 
       if (employee) {
@@ -28,7 +32,7 @@ class AuthController {
           employee.password,
         );
         if (!isPasswordCorrect) {
-          throw new Error("Contraseña incorrecta");
+          throw new InvalidCredentials();
         }
         const token = this.authService.createToken(employee.id, email);
         res.cookie("accessToken", token, {
@@ -45,7 +49,7 @@ class AuthController {
           distributor.password,
         );
         if (!isPasswordCorrect) {
-          throw new Error("Contraseña incorrecta");
+          throw new InvalidCredentials();
         }
         const token = this.authService.createToken(distributor.id, email);
         res.cookie("accessToken", token, {
@@ -64,7 +68,7 @@ class AuthController {
     try {
       const distributor = await this.distributorService.findOneById(id);
       if (distributor) {
-        throw new Error("El distribuidor ya existe");
+        throw new UserAlreadyExists();
       }
 
       const hashedPassword = this.authService.hashPassword(password);

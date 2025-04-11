@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import { AppDataSource } from "./database";
 import express, { Application, Router } from "express";
+import { errorHandler } from "./modules/shared/middlewares/errorHandler";
 
 interface AppOptions {
   port: number;
@@ -17,6 +18,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(routes);
+    this.app.use(errorHandler);
   }
 
   start() {
