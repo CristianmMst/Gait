@@ -30,8 +30,9 @@ class AuthController {
         id,
         name,
         email,
-        password: hashedPassword,
         location,
+        employees: [],
+        password: hashedPassword,
       });
       res.status(200).send({ message: "Registro exitoso" });
     } catch (error) {

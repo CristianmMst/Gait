@@ -12,13 +12,7 @@ class DistributorService {
     return await distributorRepository.findOneBy({ email });
   }
 
-  async create(distributor: {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-    location: string;
-  }) {
+  async create(distributor: Distributor) {
     await distributorRepository.save(distributor);
   }
 }
