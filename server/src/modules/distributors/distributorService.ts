@@ -5,8 +5,11 @@ const distributorRepository = AppDataSource.getRepository(Distributor);
 
 class DistributorService {
   async findOneById(id: number) {
-    const distributor = await distributorRepository.findOneBy({ id });
-    return distributor;
+    return await distributorRepository.findOneBy({ id });
+  }
+
+  async findOneByEmail(email: string) {
+    return await distributorRepository.findOneBy({ email });
   }
 
   async create(distributor: {

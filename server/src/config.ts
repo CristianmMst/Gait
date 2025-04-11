@@ -6,4 +6,5 @@ export const {
   DB_USER,
   DB_PASSWORD,
   DB_PORT = 3306,
+  JWT_SECRET,
 } = process.env;

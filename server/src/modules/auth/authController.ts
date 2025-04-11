@@ -18,16 +18,16 @@ class AuthController {
   };
 
   register = async (req: Request, res: Response, next: NextFunction) => {
-    const { NIT, name, email, password, location } = req.body;
+    const { id, name, email, password, location } = req.body;
     try {
-      const distributor = await this.distributorService.findOneById(NIT);
+      const distributor = await this.distributorService.findOneById(id);
       if (distributor) {
-        res.status(400).send({ message: "El distribuidor ya existe" });
+        throw new Error("El distribuidor ya existe");
       }
 
       const hashedPassword = this.authService.hashPassword(password);
       await this.distributorService.create({
-        id: NIT,
+        id,
         name,
         email,
         password: hashedPassword,
