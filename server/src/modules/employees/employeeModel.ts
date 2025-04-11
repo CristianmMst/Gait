@@ -1,13 +1,6 @@
 import { Role } from "../roles/roleModel";
 import { Distributor } from "../distributors/distributorModel";
-import {
-  Entity,
-  Column,
-  OneToOne,
-  ManyToOne,
-  JoinColumn,
-  PrimaryColumn,
-} from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from "typeorm";
 
 @Entity("employees")
 export class Employee {
@@ -32,7 +25,7 @@ export class Employee {
   @Column({ type: "varchar", length: 20 })
   phone: string;
 
-  @OneToOne(() => Role)
+  @ManyToOne(() => Role)
   @JoinColumn()
   role: Role;
 
