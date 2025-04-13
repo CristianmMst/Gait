@@ -1,6 +1,6 @@
 import { JWT_SECRET } from "@/config";
 import { compareSync, hashSync } from "bcrypt";
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { JwtPayload, sign, SignOptions, verify } from "jsonwebtoken";
 
 class AuthService {
   hashPassword(password: string) {
@@ -11,10 +11,8 @@ class AuthService {
     return compareSync(password, hash);
   }
 
-  createToken(payload: JwtPayload) {
-    return sign(payload, `${JWT_SECRET}`, {
-      expiresIn: "1h",
-    });
+  createToken(payload: JwtPayload, options: SignOptions) {
+    return sign(payload, `${JWT_SECRET}`, options);
   }
 
   verifyToken(token: string) {

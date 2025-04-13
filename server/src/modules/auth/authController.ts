@@ -30,7 +30,10 @@ class AuthController {
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
         }
-        const token = this.authService.createToken({ id: employee.id, email });
+        const token = this.authService.createToken(
+          { id: employee.id, email },
+          { expiresIn: "7d" },
+        );
         res.cookie("accessToken", token, {
           httpOnly: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -47,10 +50,13 @@ class AuthController {
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
         }
-        const token = this.authService.createToken({
-          id: distributor.id,
-          email,
-        });
+        const token = this.authService.createToken(
+          {
+            id: distributor.id,
+            email,
+          },
+          { expiresIn: "7d" },
+        );
         res.cookie("accessToken", token, {
           httpOnly: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
