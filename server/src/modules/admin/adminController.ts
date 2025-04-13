@@ -19,7 +19,10 @@ export class AdminController {
         admin.password,
       );
       if (!isPasswordCorrect) throw new InvalidCredentials();
-      const token = this.authService.createToken({ id: admin.id });
+      const token = this.authService.createToken(
+        { id: admin.id },
+        { expiresIn: "2d" },
+      );
       res.cookie("accessToken", token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -32,10 +35,13 @@ export class AdminController {
 
   generateToken = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = this.authService.createToken({
-        invite: true,
-        type: "REGISTER_USER",
-      });
+      const token = this.authService.createToken(
+        {
+          invite: true,
+          type: "REGISTER_USER",
+        },
+        { expiresIn: "15m" },
+      );
       res.status(200).send({ token });
     } catch (error) {
       next(error);
