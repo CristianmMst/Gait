@@ -1,0 +1,5 @@
+export enum TYPE_USERS {
+  ADMIN = "ADMIN",
+  EMPLOYEE = "EMPLOYEE",
+  DISTRIBUTOR = "DISTRIBUTOR",
+}

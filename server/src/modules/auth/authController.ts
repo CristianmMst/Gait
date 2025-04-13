@@ -3,14 +3,10 @@ import { NextFunction, Request, Response } from "express";
 import EmployeeService from "../employees/employeeService";
 import DistributorService from "../distributors/distributorService";
 
+import { TYPE_USERS } from "./enums";
 import { UserNotFound } from "../shared/errors/UserNotFound";
 import { InvalidCredentials } from "../shared/errors/InvalidCredentials";
 import { UserAlreadyExists } from "../shared/errors/UserAlreadyExists";
-
-enum TYPE_USERS {
-  EMPLOYEE = "EMPLOYEE",
-  DISTRIBUTOR = "DISTRIBUTOR",
-}
 
 class AuthController {
   private readonly authService = new AuthService();
@@ -34,7 +30,7 @@ class AuthController {
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
         }
-        const token = this.authService.createToken(employee.id, email);
+        const token = this.authService.createToken({ id: employee.id, email });
         res.cookie("accessToken", token, {
           httpOnly: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -51,7 +47,10 @@ class AuthController {
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
         }
-        const token = this.authService.createToken(distributor.id, email);
+        const token = this.authService.createToken({
+          id: distributor.id,
+          email,
+        });
         res.cookie("accessToken", token, {
           httpOnly: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,

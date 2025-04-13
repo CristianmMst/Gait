@@ -11,8 +11,8 @@ class AuthService {
     return compareSync(password, hash);
   }
 
-  createToken(id: number, email: string) {
-    return sign({ id, email }, `${JWT_SECRET}`, {
+  createToken(payload: JwtPayload) {
+    return sign(payload, `${JWT_SECRET}`, {
       expiresIn: "1h",
     });
   }
