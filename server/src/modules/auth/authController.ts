@@ -36,6 +36,8 @@ class AuthController {
         );
         res.cookie("accessToken", token, {
           httpOnly: true,
+          sameSite: "none",
+          secure: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
         });
         res
@@ -59,6 +61,8 @@ class AuthController {
         );
         res.cookie("accessToken", token, {
           httpOnly: true,
+          sameSite: "none",
+          secure: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
         });
         res.status(200).send({ token, type: TYPE_USERS.DISTRIBUTOR });
@@ -86,6 +90,15 @@ class AuthController {
         password: hashedPassword,
       });
       res.status(200).send({ message: "Registro exitoso" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  verifySession = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user;
+      res.status(200).send({ user });
     } catch (error) {
       next(error);
     }
