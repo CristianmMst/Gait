@@ -1,18 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySession } from "./app/auth/actions/verifySession";
+import { TYPE_USERS } from "./app/shared/config/routesLinks";
 
-const protectedRoutes = ["/dashboard", "/"];
-const publicRoutes = ["/login", "/register"];
+const protectedRoutes = ["/", "/dashboard"];
+
+const adminRoutes = ["/admin", "/admin/register_distributor"];
+
+const publicRoutes = ["/login", "/register", "/admin/login"];
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isProtected = protectedRoutes.includes(path);
   const isPublic = publicRoutes.includes(path);
+  const isProtected = protectedRoutes.includes(path);
+  const isAdminRoute =
+    path !== "/admin/login" &&
+    adminRoutes.some((route) => path.startsWith(route));
 
   const session = await verifySession();
 
-  if (isProtected && !session?.id) {
+  if ((isProtected || isAdminRoute) && !session?.id) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
+
+  if (isAdminRoute && session?.type !== TYPE_USERS.ADMIN) {
+    return NextResponse.redirect(new URL("/", request.nextUrl));
   }
 
   if (isPublic && session?.id) {
