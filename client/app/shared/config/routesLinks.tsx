@@ -23,7 +23,7 @@ interface Route {
 export const routesAdmin: Route[] = [
   {
     name: "Registar distribuidor",
-    path: "/register_distributor",
+    path: "/admin/register_distributor",
     icon: <KeyRound />,
     types: [TYPE_USERS.ADMIN],
     roles: [ROLE.ADMIN],
