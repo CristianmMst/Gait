@@ -30,8 +30,15 @@ class AuthController {
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
         }
+
         const token = this.authService.createToken(
-          { id: employee.id, email },
+          {
+            id: employee.id,
+            email,
+            name: employee.name,
+            type: TYPE_USERS.EMPLOYEE,
+            role: employee.role.name,
+          },
           { expiresIn: "7d" },
         );
         res.cookie("accessToken", token, {
@@ -56,6 +63,9 @@ class AuthController {
           {
             id: distributor.id,
             email,
+            name: distributor.name,
+            role: "ADMIN",
+            type: TYPE_USERS.DISTRIBUTOR,
           },
           { expiresIn: "7d" },
         );

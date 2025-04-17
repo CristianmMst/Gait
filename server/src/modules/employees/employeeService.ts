@@ -9,7 +9,10 @@ class EmployeeService {
   }
 
   async findOneByEmail(email: string) {
-    return await employeeRepository.findOneBy({ email });
+    return await employeeRepository.findOne({
+      where: { email },
+      relations: ["role"],
+    });
   }
 
   async create(employee: Employee) {
