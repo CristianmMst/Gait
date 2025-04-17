@@ -20,7 +20,13 @@ export class AdminController {
       );
       if (!isPasswordCorrect) throw new InvalidCredentials();
       const token = this.authService.createToken(
-        { id: admin.id },
+        {
+          id: admin.id,
+          name: admin.name,
+          email: admin.email,
+          type: TYPE_USERS.ADMIN,
+          role: "ADMIN",
+        },
         { expiresIn: "2d" },
       );
       res.cookie("accessToken", token, {

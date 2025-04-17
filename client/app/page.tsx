@@ -14,7 +14,7 @@ export default async function Home() {
     <main
       className={`grid grid-cols-5 h-screen ${poppins.className} antialiased`}
     >
-      <Navigation role={user.role} user={user} />
+      <Navigation role={user.role} user={user} type={user.type} />
       <section className="col-span-4">Home</section>
     </main>
   );

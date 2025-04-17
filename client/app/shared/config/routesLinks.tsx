@@ -1,6 +1,12 @@
-import { Store, Truck, Folders, LayoutDashboard } from "lucide-react";
+import { Store, Truck, Folders, LayoutDashboard, KeyRound } from "lucide-react";
 
-export enum Role {
+export enum TYPE_USERS {
+  ADMIN = "ADMIN",
+  EMPLOYEE = "EMPLOYEE",
+  DISTRIBUTOR = "DISTRIBUTOR",
+}
+
+export enum ROLE {
   ADMIN = "ADMIN",
   MODERATOR = "MODERATOR",
   VIEWER = "VIEWER",
@@ -9,33 +15,48 @@ export enum Role {
 interface Route {
   name: string;
   path: string;
-  roles: Role[];
+  roles: ROLE[];
+  types: TYPE_USERS[];
   icon: React.ReactNode;
 }
+
+export const routesAdmin: Route[] = [
+  {
+    name: "Registar distribuidor",
+    path: "/register_distributor",
+    icon: <KeyRound />,
+    types: [TYPE_USERS.ADMIN],
+    roles: [ROLE.ADMIN],
+  },
+];
 
 export const routes: Route[] = [
   {
     name: "Dashboard",
     path: "/dashboard",
     icon: <LayoutDashboard />,
-    roles: [Role.ADMIN, Role.MODERATOR, Role.VIEWER],
+    types: [TYPE_USERS.ADMIN, TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.MODERATOR, ROLE.VIEWER],
   },
   {
     name: "Tienda",
     path: "/shop",
     icon: <Store />,
-    roles: [Role.ADMIN, Role.MODERATOR],
+    types: [TYPE_USERS.ADMIN, TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.MODERATOR],
   },
   {
     name: "Historial de pedidos",
     path: "/orders",
     icon: <Folders />,
-    roles: [Role.ADMIN, Role.MODERATOR, Role.VIEWER],
+    types: [TYPE_USERS.EMPLOYEE, TYPE_USERS.DISTRIBUTOR],
+    roles: [ROLE.ADMIN, ROLE.MODERATOR, ROLE.VIEWER],
   },
   {
     name: "Estado de pedido",
     path: "/order",
     icon: <Truck />,
-    roles: [Role.ADMIN, Role.MODERATOR, Role.VIEWER],
+    types: [TYPE_USERS.EMPLOYEE, TYPE_USERS.DISTRIBUTOR],
+    roles: [ROLE.ADMIN, ROLE.MODERATOR, ROLE.VIEWER],
   },
 ];

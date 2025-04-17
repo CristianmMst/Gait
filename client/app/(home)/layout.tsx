@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { getUser } from "../auth/actions/verifySession";
 import Navigation from "../shared/components/Navigation";
-import { verifySession } from "../auth/actions/verifySession";
 
 const poppins = Poppins({
   weight: "400",
@@ -18,14 +18,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await verifySession();
-  const userRole = session?.role;
+  const user = await getUser();
 
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
         <main className="grid grid-cols-5 h-screen">
-          <Navigation role={userRole} user={session} />
+          <Navigation role={user.role} user={user} type={user.type} />
           <section className="col-span-4">{children}</section>
         </main>
       </body>

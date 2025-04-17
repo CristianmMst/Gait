@@ -5,19 +5,24 @@ import Image from "next/image";
 import { UserMenu } from "./UserMenu";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { Role, routes } from "../config/routesLinks";
 import { Session } from "@/app/auth/actions/verifySession";
 import { CircleUser, EllipsisVertical } from "lucide-react";
 import { useClickOutside } from "@/app/shared/hooks/useClickOutside";
+import { routes, routesAdmin, ROLE, TYPE_USERS } from "../config/routesLinks";
 
 interface NavigationProps {
-  role: Role;
+  role: ROLE;
+  type: TYPE_USERS;
   user: Session;
 }
 
-export default function Navigation({ role, user }: NavigationProps) {
+export default function Navigation({ role, user, type }: NavigationProps) {
   const pathname = usePathname();
-  const allowedRoutes = routes.filter((route) => route.roles.includes(role));
+  const allowedRoutes = routes.filter((route) => {
+    if (route.roles.includes(role) && route.types.includes(type)) {
+      return true;
+    }
+  });
 
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,6 +63,21 @@ export default function Navigation({ role, user }: NavigationProps) {
               </li>
             );
           })}
+          {user?.type === "ADMIN" &&
+            routesAdmin.map((route) => {
+              const isActive = pathname === route.path;
+              return (
+                <li
+                  key={route.path}
+                  className={`${isActive ? "bg-gradient-to-t from-primary to-secondary" : "hover:bg-primary"} rounded transition-colors duration-500 ease-out`}
+                >
+                  <Link href={route.path} className="flex gap-2 w-full p-2">
+                    {route.icon}
+                    <span>{route.name}</span>
+                  </Link>
+                </li>
+              );
+            })}
         </ul>
       </div>
       <div className="relative border-t border-slate-500 p-4" ref={menuRef}>
