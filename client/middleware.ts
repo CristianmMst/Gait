@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySession } from "./app/auth/actions/verifySession";
 
-const protectedRoutes = ["/dashboard"];
-const publicRoutes = ["/login", "/register", "/"];
+const protectedRoutes = ["/dashboard", "/"];
+const publicRoutes = ["/login", "/register"];
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isPublic && session?.id) {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    return NextResponse.redirect(new URL("/", request.nextUrl));
   }
 
   return NextResponse.next();

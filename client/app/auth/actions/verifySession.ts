@@ -1,12 +1,15 @@
 "use server";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export type Session =
   | {
       id?: number;
-      email?: string[];
+      name?: string;
       type?: string;
+      role?: string;
+      email?: string;
     }
   | undefined;
 
@@ -27,14 +30,13 @@ export async function verifySession() {
   }
 
   const { user } = await response.json();
-
-  if (!user.id) {
-    redirect("/login");
-  }
-
-  return {
-    id: user.id,
-    email: user.email,
-    type: user.type,
-  };
+  return user;
 }
+
+export const getUser = cache(async () => {
+  const session = await verifySession();
+  if (!session) redirect("/login");
+
+  const user = session;
+  return user;
+});
