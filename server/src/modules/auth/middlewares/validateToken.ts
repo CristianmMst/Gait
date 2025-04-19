@@ -11,7 +11,8 @@ export const validateToken = async (
 ) => {
   const token = req.query.token;
   try {
-    if (!token || typeof token !== "string") throw new MissingAccessToken();
+    if (!token || typeof token !== "string")
+      throw new MissingAccessToken("No tienes permiso para registrarte");
     authService.verifyToken(token);
     next();
   } catch (error) {
