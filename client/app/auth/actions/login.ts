@@ -1,17 +1,18 @@
 import { redirect } from "next/navigation";
+import { FormLoginState, LoginSchema } from "@/lib/definitions";
 
-export type FormState =
-  | {
-      errors?: {
-        name?: string[];
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
+export async function login(_state: FormLoginState, formData: FormData) {
+  const validatedFields = LoginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
 
-export async function login(state: FormState, formData: FormData) {
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
   const response = await fetch("http://localhost:4000/auth/login", {
     method: "POST",
     headers: {
@@ -28,7 +29,7 @@ export async function login(state: FormState, formData: FormData) {
 
   if (!response.ok) {
     return {
-      errors: data.message,
+      message: data.message,
     };
   }
 
