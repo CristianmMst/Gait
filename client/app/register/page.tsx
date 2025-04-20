@@ -46,15 +46,15 @@ export default function Register() {
             <input type="hidden" name="nit" value={stepOneData.nit} />
             <input type="hidden" name="name" value={stepOneData.name} />
             <input type="hidden" name="location" value={stepOneData.location} />
-            <StepTwo setStep={setStep} pending={pending} />
+            <StepTwo setStep={setStep} pending={pending} state={state} />
           </>
         )}
         <p
           className={`text-sm text-center text-red-700 min-h-4 transition-opacity duration-300 ${
-            state?.errors ? "opacity-100" : "opacity-0"
+            state?.message ? "opacity-100" : "opacity-0"
           }`}
         >
-          {state?.errors ?? " "}
+          {state?.message ?? " "}
         </p>
       </form>
     </div>

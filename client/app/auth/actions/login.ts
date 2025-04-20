@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
-import { FormLoginState, LoginSchema } from "@/lib/definitions";
+import { FormState } from "@/lib/definitions";
+import { LoginSchema } from "@/lib/schemas/LoginSchema";
 
-export async function login(_state: FormLoginState, formData: FormData) {
+export async function login(_state: FormState, formData: FormData) {
   const validatedFields = LoginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
