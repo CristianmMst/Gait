@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useActionState } from "react";
 
 import { login } from "../auth/actions/login";
+import { LoaderCircle } from "lucide-react";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -49,7 +50,11 @@ export default function Login() {
           disabled={pending}
           className="bg-gradient-to-t from-primary to-secondary to-100% p-2 rounded-md font-bold mt-3 disabled:opacity-50"
         >
-          Iniciar sesión
+          {pending ? (
+            <LoaderCircle className="m-auto animate-spin" />
+          ) : (
+            "Iniciar sesión"
+          )}
         </button>
         <p
           className={`text-sm text-center text-red-700 min-h-4 transition-opacity duration-300 ${
