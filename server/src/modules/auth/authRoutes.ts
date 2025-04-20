@@ -9,7 +9,7 @@ class AuthRoutes {
     const authController = new AuthController();
 
     router.post("/login", authController.login);
-    router.post("/register", validateToken, authController.register);
+    router.post("/signup", validateToken, authController.signup);
 
     router.get("/verify", validateSession, authController.verifySession);
 

@@ -4,9 +4,9 @@ import { TYPE_USERS } from "./app/shared/config/routesLinks";
 
 const protectedRoutes = ["/", "/dashboard"];
 
-const adminRoutes = ["/admin", "/admin/register_distributor"];
+const adminRoutes = ["/admin", "/admin/signup_distributor"];
 
-const publicRoutes = ["/login", "/register", "/admin/login"];
+const publicRoutes = ["/login", "/signup", "/admin/login"];
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;

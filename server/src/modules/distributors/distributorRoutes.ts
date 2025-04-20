@@ -8,9 +8,9 @@ class DistributorRoutes {
     const distributorController = new DistributorController();
 
     router.post(
-      "/register_employee",
+      "/signup_employee",
       validateDistributor,
-      distributorController.registerEmployee,
+      distributorController.signupEmployee,
     );
 
     return router;

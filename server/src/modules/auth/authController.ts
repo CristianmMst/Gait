@@ -82,7 +82,7 @@ class AuthController {
     }
   };
 
-  register = async (req: Request, res: Response, next: NextFunction) => {
+  signup = async (req: Request, res: Response, next: NextFunction) => {
     const { id, name, email, password, location } = req.body;
     try {
       const distributor = await this.distributorService.findOneById(id);

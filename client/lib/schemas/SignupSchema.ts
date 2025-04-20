@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const RegisterStepOneSchema = z.object({
+export const SignupStepOneSchema = z.object({
   nit: z
     .string({
       required_error: "NIT requerido",
@@ -12,7 +12,7 @@ export const RegisterStepOneSchema = z.object({
   location: z.string().nonempty({ message: "Ubicación requerida" }).trim(),
 });
 
-export const RegisterStepTwoSchema = z.object({
+export const SignupStepTwoSchema = z.object({
   email: z
     .string()
     .nonempty({ message: "Correo electrónico requerido" })

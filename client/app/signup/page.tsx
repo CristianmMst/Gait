@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useActionState, useState } from "react";
 import { StepOne } from "./components/StepOne";
 import { StepTwo } from "./components/StepTwo";
-import { register } from "../auth/actions/register";
+import { signup } from "../auth/actions/signup";
 
-export default function Register() {
+export default function Signup() {
   const [step, setStep] = useState(1);
-  const [state, action, pending] = useActionState(register, undefined);
+  const [state, action, pending] = useActionState(signup, undefined);
 
   const [stepOneData, setStepOneData] = useState({
     nit: "",

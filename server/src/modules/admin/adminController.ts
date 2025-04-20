@@ -44,7 +44,6 @@ export class AdminController {
       const token = this.authService.createToken(
         {
           invite: true,
-          type: "REGISTER_USER",
         },
         { expiresIn: "15m" },
       );

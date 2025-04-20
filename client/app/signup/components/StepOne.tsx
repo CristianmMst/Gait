@@ -1,5 +1,5 @@
-import { RegisterStepOneSchema } from "@/lib/schemas/RegisterSchema";
 import { useState } from "react";
+import { SignupStepOneSchema } from "@/lib/schemas/SignupSchema";
 
 interface StepOneProps {
   setStep: (step: number) => void;
@@ -32,7 +32,7 @@ export function StepOne({ setStep, data, setData }: StepOneProps) {
     data.nit && data.name.trim() !== "" && data.location.trim() !== "";
 
   const onClick = () => {
-    const validatedFields = RegisterStepOneSchema.safeParse({
+    const validatedFields = SignupStepOneSchema.safeParse({
       nit: data.nit,
       name: data.name,
       location: data.location,
