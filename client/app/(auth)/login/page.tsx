@@ -2,12 +2,11 @@
 import Image from "next/image";
 import { useActionState } from "react";
 
-import { login } from "../auth/actions/login";
+import { login } from "../actions/login";
 import { LoaderCircle } from "lucide-react";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
-  console.log(state);
 
   return (
     <div className="grid place-content-center h-screen">

@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { signup } from "../actions/signup";
 import { StepOne } from "./components/StepOne";
 import { StepTwo } from "./components/StepTwo";
-import { signup } from "../auth/actions/signup";
+import { useActionState, useState } from "react";
 
 export default function Signup() {
   const [step, setStep] = useState(1);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySession } from "./app/auth/actions/verifySession";
 import { TYPE_USERS } from "./app/shared/config/routesLinks";
+import { verifySession } from "./app/(auth)/actions/verifySession";
 
 const protectedRoutes = ["/", "/dashboard"];
 
