@@ -1,15 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { StepOne } from "./components/StepOne";
 import { StepTwo } from "./components/StepTwo";
+import { register } from "../auth/actions/register";
 
-export default function Login() {
+export default function Register() {
   const [step, setStep] = useState(1);
+  const [state, action, pending] = useActionState(register, undefined);
+
+  const [stepOneData, setStepOneData] = useState({
+    nit: "",
+    name: "",
+    location: "",
+  });
+
   return (
     <div className="grid place-content-center h-screen">
-      <form className="flex flex-col gap-y-4 p-12 bg-zinc-950 bg-opacity-50 rounded-md w-96 border border-zinc-800">
+      <form
+        className="flex flex-col gap-y-4 p-12 bg-zinc-950 bg-opacity-50 rounded-md w-96 border border-zinc-800"
+        action={action}
+      >
         <Image
           src={"/Logo.svg"}
           alt="dashboard"
@@ -24,10 +36,26 @@ export default function Login() {
           </p>
         </div>
         {step === 1 ? (
-          <StepOne setStep={setStep} />
+          <StepOne
+            setStep={setStep}
+            data={stepOneData}
+            setData={setStepOneData}
+          />
         ) : (
-          <StepTwo setStep={setStep} />
+          <>
+            <input type="hidden" name="nit" value={stepOneData.nit} />
+            <input type="hidden" name="name" value={stepOneData.name} />
+            <input type="hidden" name="location" value={stepOneData.location} />
+            <StepTwo setStep={setStep} pending={pending} />
+          </>
         )}
+        <p
+          className={`text-sm text-center text-red-700 min-h-4 transition-opacity duration-300 ${
+            state?.errors ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {state?.errors ?? " "}
+        </p>
       </form>
     </div>
   );
