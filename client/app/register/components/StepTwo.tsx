@@ -37,7 +37,7 @@ export function StepTwo({ setStep, pending }: StepTwoProps) {
         <button
           type="submit"
           disabled={pending}
-          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 px-4 rounded-md w-36"
+          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 px-4 rounded-md w-36 disabled:opacity-50"
         >
           {pending ? (
             <LoaderCircle className="m-auto animate-spin" />
