@@ -41,7 +41,7 @@ export default function Login() {
             </p>
           )}
         </label>
-        <label className="flex flex-col">
+        <label className="flex flex-col mb-2">
           <span className="text-sm mb-2">Contraseña</span>
           <input
             name="password"
