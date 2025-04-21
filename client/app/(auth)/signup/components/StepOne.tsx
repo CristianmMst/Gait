@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "../../components/Input";
 import { SignupStepOneSchema } from "@/lib/schemas/SignupSchema";
 
 interface StepOneProps {
@@ -18,11 +19,14 @@ interface StepOneProps {
 }
 
 export function StepOne({ setStep, data, setData }: StepOneProps) {
-  const [errors, setErrors] = useState<{
-    nit: string[];
-    name: string[];
-    location: string[];
-  }>({
+  const [errors, setErrors] = useState<
+    | {
+        nit: string[];
+        name: string[];
+        location: string[];
+      }
+    | undefined
+  >({
     nit: [],
     name: [],
     location: [],
@@ -53,45 +57,30 @@ export function StepOne({ setStep, data, setData }: StepOneProps) {
   };
   return (
     <>
-      <label className="flex flex-col">
-        <span className="text-sm mb-2">NIT</span>
-        <input
-          name="nit"
-          type="text"
-          placeholder="Ingrese el NIT"
-          onChange={(e) => setData({ ...data, nit: e.target.value })}
-          className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
-        />
-        {errors.nit && (
-          <p className="text-xs mt-2 ml-1 text-red-600">{errors.nit}</p>
-        )}
-      </label>
-      <label className="flex flex-col">
-        <span className="text-sm mb-2">Nombre de la empresa</span>
-        <input
-          type="text"
-          name="name"
-          placeholder="Ingrese el nombre de la empresa"
-          onChange={(e) => setData({ ...data, name: e.target.value })}
-          className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
-        />
-        {errors.name && (
-          <p className="text-xs mt-2 ml-1 text-red-600">{errors.name}</p>
-        )}
-      </label>
-      <label className="flex flex-col">
-        <span className="text-sm mb-2">Ubicación</span>
-        <input
-          type="text"
-          name="location"
-          placeholder="Ingrese la ubicación"
-          onChange={(e) => setData({ ...data, location: e.target.value })}
-          className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
-        />
-        {errors.location && (
-          <p className="text-xs mt-2 ml-1 text-red-600">{errors.location}</p>
-        )}
-      </label>
+      <Input
+        type="text"
+        name="nit"
+        label="NIT"
+        error={errors?.nit}
+        placeholder="Ingrese el NIT"
+        onChange={(e) => setData({ ...data, nit: e.target.value })}
+      />
+      <Input
+        type="text"
+        name="name"
+        label="Nombre de la empresa"
+        error={errors?.name}
+        placeholder="Ingrese el nombre de la empresa"
+        onChange={(e) => setData({ ...data, name: e.target.value })}
+      />
+      <Input
+        type="text"
+        name="location"
+        label="Ubicación"
+        error={errors?.location}
+        placeholder="Ingrese la ubicación"
+        onChange={(e) => setData({ ...data, location: e.target.value })}
+      />
       <button
         type="button"
         onClick={onClick}

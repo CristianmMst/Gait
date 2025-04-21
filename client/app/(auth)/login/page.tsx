@@ -4,6 +4,7 @@ import { useActionState } from "react";
 
 import { login } from "../actions/login";
 import ButtonSubmit from "../components/ButtonSubmit";
+import Input from "../components/Input";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -27,34 +28,20 @@ export default function Login() {
             Ingresa tus credenciales
           </p>
         </div>
-        <label className="flex flex-col">
-          <span className="text-sm mb-2">Correo Electrónico</span>
-          <input
-            type="text"
-            name="email"
-            className={`bg-zinc-800 border rounded-md p-2 placeholder:text-sm ${state?.errors?.email ? "border-red-600" : "border-zinc-700"}`}
-            placeholder="Ingresa tu correo electrónico"
-          />
-          {state?.errors?.email && (
-            <p className="text-xs mt-2 ml-1 text-red-600">
-              {state.errors.email}
-            </p>
-          )}
-        </label>
-        <label className="flex flex-col mb-2">
-          <span className="text-sm mb-2">Contraseña</span>
-          <input
-            name="password"
-            type="password"
-            className={`bg-zinc-800 border rounded-md p-2 placeholder:text-sm ${state?.errors?.password ? "border-red-600" : "border-zinc-700"}`}
-            placeholder="***********"
-          />
-          {state?.errors?.password && (
-            <p className="text-xs mt-2 ml-1 text-red-600">
-              {state.errors.password}
-            </p>
-          )}
-        </label>
+        <Input
+          type="text"
+          name="email"
+          label="Correo Electrónico"
+          error={state?.errors?.email}
+          placeholder="Ingresa tu correo electrónico"
+        />
+        <Input
+          type="password"
+          name="password"
+          label="Contraseña"
+          error={state?.errors?.password}
+          placeholder="***********"
+        />
         <ButtonSubmit pending={pending}>Iniciar sesión</ButtonSubmit>
         <p
           className={`text-sm text-center text-red-600 min-h-4 transition-opacity duration-300 ${
