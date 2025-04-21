@@ -5,8 +5,8 @@ import Image from "next/image";
 import { UserMenu } from "./UserMenu";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { Session } from "@/app/auth/actions/verifySession";
 import { CircleUser, EllipsisVertical } from "lucide-react";
+import { Session } from "@/app/(auth)/actions/verifySession";
 import { useClickOutside } from "@/app/shared/hooks/useClickOutside";
 import { routes, routesAdmin, ROLE, TYPE_USERS } from "../config/routesLinks";
 

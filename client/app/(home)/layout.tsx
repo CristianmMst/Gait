@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { getUser } from "../auth/actions/verifySession";
 import Navigation from "../shared/components/Navigation";
+import { getUser } from "../(auth)/actions/verifySession";
 
 const poppins = Poppins({
   weight: "400",

@@ -1,5 +1,5 @@
 import { Cog, LogOut } from "lucide-react";
-import { logout } from "@/app/auth/actions/logout";
+import { logout } from "@/app/(auth)/actions/logout";
 
 export const UserMenu = ({ isOpen }: { isOpen: boolean }) => {
   if (!isOpen) return null;

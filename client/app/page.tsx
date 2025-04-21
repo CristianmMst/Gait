@@ -1,5 +1,5 @@
 import Navigation from "./shared/components/Navigation";
-import { getUser } from "./auth/actions/verifySession";
+import { getUser } from "./(auth)/actions/verifySession";
 
 import { Poppins } from "next/font/google";
 
