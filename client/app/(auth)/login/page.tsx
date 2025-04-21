@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useActionState } from "react";
 
 import { login } from "../actions/login";
-import { LoaderCircle } from "lucide-react";
+import ButtonSubmit from "../components/ButtonSubmit";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -55,17 +55,7 @@ export default function Login() {
             </p>
           )}
         </label>
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 rounded-md font-bold mt-3 disabled:opacity-50"
-        >
-          {pending ? (
-            <LoaderCircle className="m-auto animate-spin" />
-          ) : (
-            "Iniciar sesión"
-          )}
-        </button>
+        <ButtonSubmit pending={pending}>Iniciar sesión</ButtonSubmit>
         <p
           className={`text-sm text-center text-red-600 min-h-4 transition-opacity duration-300 ${
             state?.message ? "opacity-100" : "opacity-0"

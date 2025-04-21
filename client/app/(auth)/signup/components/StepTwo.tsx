@@ -1,4 +1,4 @@
-import { LoaderCircle } from "lucide-react";
+import ButtonSubmit from "../../components/ButtonSubmit";
 
 interface StepTwoProps {
   state?: {
@@ -30,7 +30,7 @@ export function StepTwo({ setStep, pending, state }: StepTwoProps) {
       <label className="flex flex-col">
         <span className="text-sm mb-2">Contraseña</span>
         <input
-          type="text"
+          type="password"
           name="password"
           className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
           placeholder="***********"
@@ -49,17 +49,18 @@ export function StepTwo({ setStep, pending, state }: StepTwoProps) {
         >
           Atras
         </button>
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 px-4 rounded-md w-36 disabled:opacity-50"
-        >
-          {pending ? (
-            <LoaderCircle className="m-auto animate-spin" />
-          ) : (
-            "Crear cuenta"
-          )}
-        </button>
+        <ButtonSubmit pending={pending}>Crear cuenta</ButtonSubmit>
+        {/* <button */}
+        {/*   type="submit" */}
+        {/*   disabled={pending} */}
+        {/*   className="bg-gradient-to-t from-primary to-secondary to-100% p-2 px-4 rounded-md w-36 disabled:opacity-50" */}
+        {/* > */}
+        {/*   {pending ? ( */}
+        {/*     <LoaderCircle className="m-auto animate-spin" /> */}
+        {/*   ) : ( */}
+        {/*     "Crear cuenta" */}
+        {/*   )} */}
+        {/* </button> */}
       </div>
     </div>
   );
