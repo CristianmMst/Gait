@@ -5,9 +5,9 @@ import Image from "next/image";
 import { UserMenu } from "./UserMenu";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { CircleUser, EllipsisVertical } from "lucide-react";
 import { Session } from "@/app/(auth)/actions/verifySession";
 import { useClickOutside } from "@/app/shared/hooks/useClickOutside";
+import { ChevronRight, CircleUser, EllipsisVertical } from "lucide-react";
 import { routes, routesAdmin, ROLE, TYPE_USERS } from "../config/routesLinks";
 
 interface NavigationProps {
@@ -30,9 +30,9 @@ export default function Navigation({ role, user, type }: NavigationProps) {
   useClickOutside(menuRef, () => setIsMenuOpen(false));
 
   return (
-    <nav className="flex flex-col justify-between h-full col-span-1 border-r border-slate-500">
-      <div className="flex flex-col items-center gap-y-6">
-        <div className="flex justify-center items-center gap-4 p-4 w-full">
+    <nav className="flex flex-col justify-between h-full col-span-1 border-r border-slate-600">
+      <div className="flex flex-col items-center">
+        <div className="flex justify-center items-center gap-4 p-6 py-8 w-full ">
           <Image
             src={"/Logo.svg"}
             alt="Logo"
@@ -48,17 +48,24 @@ export default function Navigation({ role, user, type }: NavigationProps) {
             className="w-20 h-16 antialiased"
           />
         </div>
-        <ul className="flex flex-col w-full gap-2 text-slate-200 p-4">
+        <p className="text-slate-400 self-start px-10 mt-4">Menu</p>
+        <ul className="flex flex-col w-full gap-y-3 text-slate-400 p-4 px-6">
           {allowedRoutes.map((route) => {
             const isActive = pathname === route.path;
             return (
               <li
                 key={route.path}
-                className={`${isActive ? "bg-gradient-to-t from-primary to-secondary" : "hover:bg-primary"} rounded transition-colors duration-500 ease-out`}
+                className={`${isActive && "bg-gradient-to-t from-primary to-secondary text-slate-200"} hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-500 ease-out`}
               >
-                <Link href={route.path} className="flex gap-2 w-full p-2">
-                  {route.icon}
-                  <span>{route.name}</span>
+                <Link
+                  href={route.path}
+                  className="flex justify-between w-full p-4 py-3"
+                >
+                  <div className="flex items-center gap-2">
+                    {route.icon}
+                    <span className="text-sm">{route.name}</span>
+                  </div>
+                  {isActive && <ChevronRight />}
                 </Link>
               </li>
             );
@@ -69,18 +76,24 @@ export default function Navigation({ role, user, type }: NavigationProps) {
               return (
                 <li
                   key={route.path}
-                  className={`${isActive ? "bg-gradient-to-t from-primary to-secondary" : "hover:bg-primary"} rounded transition-colors duration-500 ease-out`}
+                  className={`${isActive && "bg-gradient-to-t from-primary to-secondary text-slate-200"} hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-500 ease-out`}
                 >
-                  <Link href={route.path} className="flex gap-2 w-full p-2">
-                    {route.icon}
-                    <span>{route.name}</span>
+                  <Link
+                    href={route.path}
+                    className="flex justify-between w-full p-4 py-3"
+                  >
+                    <div className="flex items-center gap-2">
+                      {route.icon}
+                      <span className="text-sm">{route.name}</span>
+                    </div>
+                    {isActive && <ChevronRight />}
                   </Link>
                 </li>
               );
             })}
         </ul>
       </div>
-      <div className="relative border-t border-slate-500 p-4" ref={menuRef}>
+      <div className="relative border-t border-slate-600 p-4" ref={menuRef}>
         <div className="flex justify-between items-center w-full text-slate-200">
           <div className="flex gap-4 items-center">
             <CircleUser size={30} />
