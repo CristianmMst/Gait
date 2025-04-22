@@ -23,9 +23,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <main className="grid grid-cols-5 h-screen">
+        <main className="flex h-screen">
           <Navigation role={user.role} user={user} type={user.type} />
-          <section className="col-span-4">{children}</section>
+          <section className="flex-1">{children}</section>
         </main>
       </body>
     </html>

@@ -11,11 +11,9 @@ const poppins = Poppins({
 export default async function Home() {
   const user = await getUser();
   return (
-    <main
-      className={`grid grid-cols-5 h-screen ${poppins.className} antialiased`}
-    >
+    <main className={`flex h-screen ${poppins.className} antialiased`}>
       <Navigation role={user.role} user={user} type={user.type} />
-      <section className="col-span-4">Home</section>
+      <section className="flex-1">Home</section>
     </main>
   );
 }

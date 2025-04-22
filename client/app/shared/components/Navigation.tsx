@@ -30,7 +30,7 @@ export default function Navigation({ role, user, type }: NavigationProps) {
   useClickOutside(menuRef, () => setIsMenuOpen(false));
 
   return (
-    <nav className="flex flex-col justify-between h-full col-span-1 border-r border-slate-600">
+    <nav className="flex flex-col justify-between w-72 h-full border-r border-slate-600">
       <div className="flex flex-col items-center">
         <div className="flex justify-center items-center gap-4 p-6 py-8 w-full ">
           <Image
