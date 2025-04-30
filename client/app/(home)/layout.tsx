@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import Navigation from "../shared/components/Navigation";
 import { getUser } from "../(auth)/actions/verifySession";
+import Navigation from "../shared/components/Navigation/Navigation";
 
 const poppins = Poppins({
   weight: "400",
@@ -24,7 +24,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
         <main className="flex h-screen">
-          <Navigation role={user.role} user={user} type={user.type} />
+          <Navigation user={user} />
           <section className="flex-1">{children}</section>
         </main>
       </body>

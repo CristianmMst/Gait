@@ -2,16 +2,15 @@
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ROLE, TYPE_USERS } from "@/app/shared/config/routesLinks";
 
-export type Session =
-  | {
-      id?: number;
-      name?: string;
-      type?: string;
-      role?: string;
-      email?: string;
-    }
-  | undefined;
+export type Session = {
+  id: number;
+  name: string;
+  role: ROLE;
+  type: TYPE_USERS;
+  email: string;
+} | null;
 
 export async function verifySession() {
   const cookieStore = await cookies();
