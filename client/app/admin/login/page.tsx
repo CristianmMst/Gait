@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { useActionState } from "react";
 import { login } from "../actions/login";
+import Input from "@/app/(auth)/components/Input";
+import ButtonSubmit from "@/app/(auth)/components/ButtonSubmit";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -25,31 +27,21 @@ export default function Login() {
             Ingresa tus credenciales
           </p>
         </div>
-        <label className="flex flex-col">
-          <span className="text-sm mb-2">Correo Electrónico</span>
-          <input
-            type="text"
-            name="email"
-            className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
-            placeholder="Ingresa tu correo electrónico"
-          />
-        </label>
-        <label className="flex flex-col">
-          <span className="text-sm mb-2">Contraseña</span>
-          <input
-            name="password"
-            type="password"
-            className="bg-zinc-800 border border-zinc-700 rounded-md p-2 placeholder:text-sm"
-            placeholder="***********"
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-gradient-to-t from-primary to-secondary to-100% p-2 rounded-md font-bold mt-3 disabled:opacity-50"
-        >
-          Iniciar sesión
-        </button>
+        <Input
+          type="text"
+          name="email"
+          label="Correo Electrónico"
+          error={state?.errors?.email}
+          placeholder="Ingresa tu correo electrónico"
+        />
+        <Input
+          type="password"
+          name="password"
+          label="Contraseña"
+          error={state?.errors?.password}
+          placeholder="***********"
+        />
+        <ButtonSubmit pending={pending}>Iniciar sesión</ButtonSubmit>
         <p
           className={`text-sm text-center text-red-700 min-h-4 transition-opacity duration-300 ${
             state?.errors ? "opacity-100" : "opacity-0"
