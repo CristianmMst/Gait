@@ -70,13 +70,13 @@ export default function Navigation({ user }: NavigationProps) {
         </ul>
       </div>
       <div className="flex flex-col w-full gap-y-3 text-slate-400 p-4 px-6">
-        <button className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-500 ease-out">
+        <button className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-300 ease-out">
           <Info />
           <span className="text-sm">Ayuda</span>
         </button>
         <button
           onClick={logout}
-          className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-500 ease-out"
+          className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-300 ease-out"
         >
           <LogOut />
           <span className="text-sm">Cerrar sesión</span>

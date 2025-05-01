@@ -6,7 +6,7 @@
    width="512"
    height="512"
    sodipodi:docname="Logo.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,13 +23,13 @@
      showguides="true"
      inkscape:zoom="1.4142136"
      inkscape:cx="179.95867"
-     inkscape:cy="262.69016"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:cy="263.04372"
+     inkscape:window-width="1440"
+     inkscape:window-height="863"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs4" />
   <g
@@ -37,7 +37,7 @@
      id="layer1"
      inkscape:label="Layer 1">
     <rect
-       style="fill:#8d0dd4;stroke-width:0;fill-opacity:1;stroke:none;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#4c0dd4;stroke-width:0;fill-opacity:1;stroke:none;stroke-opacity:1;stroke-dasharray:none"
        id="rect1"
        width="512"
        height="512"

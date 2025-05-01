@@ -11,10 +11,8 @@ interface NavItemProps {
 export default function NavItem({ name, path, icon, isActive }: NavItemProps) {
   return (
     <li
-      className={`rounded-lg transition-colors duration-300 ${
-        isActive
-          ? "bg-gradient-to-t from-primary to-secondary text-slate-200"
-          : "hover:bg-primary hover:text-slate-100"
+      className={`rounded-lg transition-colors duration-300  hover:bg-primary hover:text-slate-100 ${
+        isActive ? "bg-primary text-slate-100" : ""
       }`}
     >
       <Link
