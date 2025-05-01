@@ -1,16 +1,5 @@
+import { ROLE, TYPE_USERS } from "../enums/user";
 import { Store, Truck, Folders, LayoutDashboard, KeyRound } from "lucide-react";
-
-export enum TYPE_USERS {
-  ADMIN = "ADMIN",
-  EMPLOYEE = "EMPLOYEE",
-  DISTRIBUTOR = "DISTRIBUTOR",
-}
-
-export enum ROLE {
-  ADMIN = "ADMIN",
-  MODERATOR = "MODERATOR",
-  VIEWER = "VIEWER",
-}
 
 interface Route {
   name: string;

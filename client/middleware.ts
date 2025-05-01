@@ -1,5 +1,5 @@
+import { TYPE_USERS } from "./app/shared/enums/user";
 import { NextRequest, NextResponse } from "next/server";
-import { TYPE_USERS } from "./app/shared/config/routesLinks";
 import { verifySession } from "./app/(auth)/actions/verifySession";
 
 const protectedRoutes = ["/", "/dashboard"];

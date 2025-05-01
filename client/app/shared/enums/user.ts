@@ -1,0 +1,11 @@
+export enum TYPE_USERS {
+  ADMIN = "ADMIN",
+  EMPLOYEE = "EMPLOYEE",
+  DISTRIBUTOR = "DISTRIBUTOR",
+}
+
+export enum ROLE {
+  ADMIN = "ADMIN",
+  MODERATOR = "MODERATOR",
+  VIEWER = "VIEWER",
+}
