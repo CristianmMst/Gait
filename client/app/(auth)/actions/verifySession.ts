@@ -2,7 +2,7 @@
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ROLE, TYPE_USERS } from "@/app/shared/config/routesLinks";
+import { ROLE, TYPE_USERS } from "@/app/shared/enums/user";
 
 export type Session = {
   id: number;
