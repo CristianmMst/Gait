@@ -15,6 +15,13 @@ class EmployeeService {
     });
   }
 
+  async findByIdOrEmail(id: number, email: string) {
+    return await employeeRepository.findOne({
+      where: [{ id }, { email }],
+      relations: ["role"],
+    });
+  }
+
   async create(employee: Employee) {
     await employeeRepository.save(employee);
   }

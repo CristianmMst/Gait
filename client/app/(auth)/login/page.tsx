@@ -2,9 +2,9 @@
 import Image from "next/image";
 import { useActionState } from "react";
 
+import Input from "../components/Input";
 import { login } from "../actions/login";
 import ButtonSubmit from "../components/ButtonSubmit";
-import Input from "../components/Input";
 
 export default function Login() {
   const [state, action, pending] = useActionState(login, undefined);
