@@ -85,7 +85,7 @@ export function StepOne({ setStep, data, setData }: StepOneProps) {
         type="button"
         onClick={onClick}
         disabled={!isFormValid}
-        className="bg-gradient-to-t from-primary to-secondary to-100% p-2 py-3 rounded-md font-bold mt-3 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="bg-linear-to-t from-primary to-secondary to-100% p-2 py-3 rounded-md font-bold mt-3 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         Siguiente
       </button>

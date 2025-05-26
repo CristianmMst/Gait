@@ -30,7 +30,7 @@ export default function SignupDistributor() {
       <div className="flex flex-col gap-6">
         <p>Genera un link para que un distribuidor pueda registrarse</p>
         <div className="flex flex-col gap-y-4">
-          <div className="flex justify-between bg-zinc-800 w-[35rem] h-10 rounded px-4 gap-4">
+          <div className="flex justify-between bg-zinc-800 w-140 h-10 rounded-sm px-4 gap-4">
             <div className="flex items-center gap-4 w-full">
               <Link size={20} />
               <input
@@ -50,7 +50,7 @@ export default function SignupDistributor() {
           </div>
           <button
             onClick={handleGenerate}
-            className="flex justify-center items-center bg-accent text-black p-2 rounded font-bold gap-2 active:scale-95 transition-transform hover:opacity-90"
+            className="flex justify-center items-center bg-accent text-black p-2 rounded-sm font-bold gap-2 active:scale-95 transition-transform hover:opacity-90"
           >
             <RotateCcw size={20} />
             <span>{isGenerated ? "Generado" : "Generar"}</span>
