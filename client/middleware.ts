@@ -2,7 +2,7 @@ import { TYPE_USERS } from "./app/shared/enums/user";
 import { NextRequest, NextResponse } from "next/server";
 import { verifySession } from "./app/(auth)/actions/verifySession";
 
-const protectedRoutes = ["/", "/dashboard"];
+const protectedRoutes = ["/"];
 
 const adminRoutes = ["/admin", "/admin/signup_distributor"];
 

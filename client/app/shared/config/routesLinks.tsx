@@ -1,12 +1,5 @@
 import { ROLE, TYPE_USERS } from "../enums/user";
-import {
-  Store,
-  Truck,
-  Folders,
-  KeyRound,
-  UserPlus,
-  LayoutDashboard,
-} from "lucide-react";
+import { House, Store, Truck, Folders, KeyRound, UserPlus } from "lucide-react";
 
 interface Route {
   name: string;
@@ -28,9 +21,9 @@ export const routesAdmin: Route[] = [
 
 export const routes: Route[] = [
   {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: <LayoutDashboard />,
+    name: "Inicio",
+    path: "/",
+    icon: <House />,
     types: [TYPE_USERS.ADMIN, TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
     roles: [ROLE.ADMIN, ROLE.MODERATOR, ROLE.VIEWER],
   },
