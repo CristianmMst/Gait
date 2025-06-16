@@ -3,6 +3,9 @@ import { Role } from "@/modules/roles/roleModel";
 import { Admin } from "@/modules/admin/adminModel";
 import { Employee } from "@/modules/employees/employeeModel";
 import { Distributor } from "@/modules/distributors/distributorModel";
+import { Brand } from "@/modules/brands/brandModel";
+import { Product } from "@/modules/products/productModel";
+import { Category } from "@/modules/categories/categoryModel";
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from "@/config";
 
 export const AppDataSource = new DataSource({
@@ -14,5 +17,5 @@ export const AppDataSource = new DataSource({
   database: DB_NAME,
   synchronize: false,
   logging: true,
-  entities: [Admin, Distributor, Employee, Role],
+  entities: [Admin, Distributor, Employee, Role, Product, Brand, Category],
 });
