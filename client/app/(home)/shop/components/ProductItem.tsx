@@ -18,7 +18,7 @@ export function ProductItem({ product }: { product: Product }) {
         className="self-center"
       />
       <h2
-        className="w-full max-w-[180px] break-words font-semibold text-slate-200"
+        className="w-full max-w-[180px] break-words font-semibold text-slate-200 mt-2"
         title={product.name}
       >
         {product.name}

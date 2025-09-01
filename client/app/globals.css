@@ -36,6 +36,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 .step_two {
   animation: step_two 0.5s ease-in-out;
 }
@@ -55,9 +65,18 @@ body {
   anchor-name: --btn_cart;
 }
 
-.cart_modal {
+.btn_filter_modal {
+  anchor-name: --btn_filter;
+}
+
+#filter-popover {
   scale: 0;
   opacity: 0;
+  margin-top: 8px;
+  top: anchor(bottom);
+  right: anchor(center);
+  position-anchor: --btn_filter;
+  position-area: bottom left;
   transition: scale 0.2s ease-in-out, opacity 0.2s ease-in-out,
     display 0.2s ease-in-out allow-discrete;
 
@@ -72,14 +91,29 @@ body {
   }
 }
 
-.cart_modal {
+#cart-popover {
+  scale: 0;
+  opacity: 0;
   margin-top: 8px;
   position: absolute;
   top: anchor(bottom);
   right: anchor(center);
   position-anchor: --btn_cart;
   position-area: bottom left;
+  transition: scale 0.2s ease-in-out, opacity 0.2s ease-in-out,
+    display 0.2s ease-in-out allow-discrete;
+
+  &:popover-open {
+    scale: 1;
+    opacity: 1;
+
+    @starting-style {
+      scale: 0;
+      opacity: 0;
+    }
+  }
 }
+
 .overflow-y-auto {
   padding-right: 0.5rem;
   scrollbar-width: thin;

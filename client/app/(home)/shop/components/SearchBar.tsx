@@ -1,6 +1,7 @@
 "use client";
 import { Funnel, Search, ShoppingCart } from "lucide-react";
 import { CartModal } from "./CartModal";
+import { FilterModal } from "./FilterModal";
 import { useCart } from "@/app/context/CartContext";
 
 export function SearchBar() {
@@ -17,13 +18,17 @@ export function SearchBar() {
         />
       </div>
       <div className="flex gap-x-3 items-center">
-        <button
-          type="button"
-          className="flex items-center gap-x-2 bg-gray-700 p-2 rounded-md cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
-        >
-          <Funnel />
-          <span>Filtros</span>
-        </button>
+        <div className="relative">
+          <button
+            type="button"
+            popoverTarget="filter-popover"
+            className="flex items-center gap-x-2 bg-gray-700 p-2 rounded-md btn_filter_modal cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
+          >
+            <Funnel />
+            <span>Filtros</span>
+          </button>
+          <FilterModal />
+        </div>
         <div className="relative">
           <button
             type="button"
@@ -37,8 +42,8 @@ export function SearchBar() {
               </span>
             )}
           </button>
+          <CartModal />
         </div>
-        <CartModal />
       </div>
     </div>
   );

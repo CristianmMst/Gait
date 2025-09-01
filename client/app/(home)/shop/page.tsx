@@ -2,8 +2,19 @@ import { SearchBar } from "./components/SearchBar";
 import { getProducts } from "./actions/getProducts";
 import { ProductItem } from "./components/ProductItem";
 
-export default async function ShopPage() {
-  const products = await getProducts();
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { categoryId, minPrice, maxPrice } = await searchParams;
+  console.log(categoryId, minPrice, maxPrice);
+
+  const products = await getProducts(
+    categoryId as string,
+    minPrice as unknown as number,
+    maxPrice as unknown as number
+  );
 
   return (
     <div className="p-8">
