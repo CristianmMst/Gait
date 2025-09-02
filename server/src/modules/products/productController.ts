@@ -20,4 +20,17 @@ export class ProductController {
       next(error);
     }
   };
+
+  getProductById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const product = await this.productService.findById(Number(id));
+      if (!product) {
+        res.status(404).json({ message: "Producto no encontrado" });
+      }
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

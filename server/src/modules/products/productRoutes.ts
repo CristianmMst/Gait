@@ -7,6 +7,7 @@ class ProductRoutes {
     const productController = new ProductController();
 
     router.get("/", productController.getProducts);
+    router.get("/:id", productController.getProductById);
 
     return router;
   }
