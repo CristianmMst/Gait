@@ -1,10 +1,10 @@
 import { Brand } from "../brands/brandModel";
 import { Category } from "../categories/categoryModel";
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("products")
 export class Product {
-  @PrimaryColumn({ type: "int" })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: "varchar", length: 255, nullable: false })
