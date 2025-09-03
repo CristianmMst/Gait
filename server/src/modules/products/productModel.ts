@@ -10,7 +10,7 @@ export class Product {
   @Column({ type: "varchar", length: 255, nullable: false })
   image: string;
 
-  @Column({ type: "varchar", length: 45, nullable: false })
+  @Column({ type: "varchar", length: 80, nullable: false })
   name: string;
 
   @Column({ type: "decimal", precision: 10, scale: 2, unsigned: true })
