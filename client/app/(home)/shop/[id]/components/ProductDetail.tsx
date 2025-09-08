@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, ShoppingCart } from "lucide-react";
+import { ArrowLeft, CircleCheckBig, CircleX, ShoppingCart } from "lucide-react";
 import { Product, useCart } from "@/app/context/CartContext";
 
 export function ProductDetail({ product }: { product: Product }) {
@@ -68,13 +68,25 @@ export function ProductDetail({ product }: { product: Product }) {
               </div>
             </div>
 
+            {product.stock > 0 ? (
+              <p className="flex mt-2 gap-x-2 items-center text-green-500">
+                <CircleCheckBig size={20} />
+                <span>{product.stock > 0 ? "En stock" : "Agotado"}</span>
+              </p>
+            ) : (
+              <p className="flex mt-2 gap-x-2 items-center text-red-500">
+                <CircleX size={20} />
+                <span>Agotado</span>
+              </p>
+            )}
+
             <button
               type="button"
               onClick={handleAddToCart}
-              className="flex gap-x-2 items-center self-start mt-4 text-lg bg-primary px-3 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300"
+              className="flex gap-x-4 items-center self-start mt-4 text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300"
             >
-              <ShoppingCart size={30} />
-              Agregar al carrito al carrito
+              <ShoppingCart size={25} />
+              Agregar al carrito
             </button>
           </div>
         </div>
