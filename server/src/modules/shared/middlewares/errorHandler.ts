@@ -18,14 +18,13 @@ export const errorHandler = (
     res.status(401).json({
       message: "El token ha expirado",
     });
-  }
-  if (error instanceof JsonWebTokenError) {
+  } else if (error instanceof JsonWebTokenError) {
     res.status(401).json({
       message: "El token no es válido",
     });
+  } else {
+    res.status(statusCode).json({
+      message,
+    });
   }
-
-  res.status(statusCode).json({
-    message,
-  });
 };
