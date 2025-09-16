@@ -1,3 +1,4 @@
+import { config } from "@/lib/config";
 import { ROLE } from "@/app/shared/enums/user";
 import { FormState } from "@/lib/definitions";
 import { AddEmployeeSchema } from "@/lib/schemas/AddEmployeeSchema";
@@ -23,11 +24,11 @@ export const addEmployee = async (_state: FormState, formData: FormData) => {
     formData.get("role") === ROLE.ADMIN
       ? 1
       : formData.get("role") === ROLE.MODERATOR
-        ? 2
-        : 3;
+      ? 2
+      : 3;
 
   const response = await fetch(
-    "http://localhost:4000/distributors/signup_employee",
+    `${config.serverUrl}/distributors/signup_employee`,
     {
       method: "POST",
       credentials: "include",
@@ -43,7 +44,7 @@ export const addEmployee = async (_state: FormState, formData: FormData) => {
         password: formData.get("password"),
         role: role,
       }),
-    },
+    }
   );
 
   const data = await response.json();

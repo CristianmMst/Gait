@@ -1,5 +1,6 @@
 "use server";
 import { cache } from "react";
+import { config } from "@/lib/config";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ROLE, TYPE_USERS } from "@/app/shared/enums/user";
@@ -13,12 +14,13 @@ export type Session = {
 } | null;
 
 export async function verifySession() {
+  console.log("Verifying session... PUTOOOOO");
   const cookieStore = await cookies();
   const token = cookieStore.get("accessToken")?.value;
 
   const headers: HeadersInit = token ? { Authorization: token } : {};
 
-  const response = await fetch("http://localhost:4000/auth/verify", {
+  const response = await fetch(`${config.serverUrl}/auth/verify`, {
     method: "GET",
     headers,
     credentials: "include",

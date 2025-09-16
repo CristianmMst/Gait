@@ -1,4 +1,5 @@
 "use server";
+import { config } from "@/lib/config";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FormState } from "@/lib/definitions";
@@ -21,7 +22,7 @@ export async function signup(_state: FormState, formData: FormData) {
   }
 
   const response = await fetch(
-    `http://localhost:4000/auth/signup${token ? `?token=${token}` : ""}`,
+    `${config.serverUrl}/auth/signup${token ? `?token=${token}` : ""}`,
     {
       method: "POST",
       headers: {
@@ -34,7 +35,7 @@ export async function signup(_state: FormState, formData: FormData) {
         email: formData.get("email"),
         password: formData.get("password"),
       }),
-    },
+    }
   );
 
   const data = await response.json();

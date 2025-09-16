@@ -1,16 +1,17 @@
 "use client";
 import { useState } from "react";
-import { RotateCcw, Copy, Link, CopyCheck } from "lucide-react";
+import { config } from "@/lib/config";
 import { generateToken } from "../actions/generate_token";
+import { RotateCcw, Copy, Link, CopyCheck } from "lucide-react";
 
 export default function SignupDistributor() {
   const [copied, setCopied] = useState(false);
-  const [link, setLink] = useState("http://localhost:3000/signup");
+  const [link, setLink] = useState(`${config.clientUrl}/signup`);
   const [isGenerated, setIsGenerated] = useState(false);
 
   const handleGenerate = async () => {
     const { token } = await generateToken();
-    setLink(`http://localhost:3000/signup?token=${token}`);
+    setLink(`${config.clientUrl}/signup?token=${token}`);
 
     setIsGenerated(true);
     setTimeout(() => {

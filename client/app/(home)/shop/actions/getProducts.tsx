@@ -1,7 +1,8 @@
+import { config } from "@/lib/config";
 import { Product } from "@/app/context/CartContext";
 
 export async function getProductById(id: number): Promise<Product> {
-  const response = await fetch(`http://localhost:4000/products/${id}`);
+  const response = await fetch(`${config.serverUrl}/products/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch product");
   }
@@ -14,7 +15,7 @@ export async function getProducts(
   maxPrice?: number
 ): Promise<Product[]> {
   const response = await fetch(
-    `http://localhost:4000/products?${
+    `${config.serverUrl}/products?${
       categoryId ? `categoryId=${categoryId}&` : ""
     }${minPrice ? `minPrice=${minPrice}&` : ""}${
       maxPrice ? `maxPrice=${maxPrice}` : ""

@@ -1,5 +1,7 @@
+import { config } from "@/lib/config";
+
 export async function generateToken() {
-  const response = await fetch("http://localhost:4000/admin/generate_token", {
+  const response = await fetch(`${config.serverUrl}/admin/generate_token`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
