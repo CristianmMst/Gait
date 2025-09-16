@@ -14,7 +14,6 @@ export type Session = {
 } | null;
 
 export async function verifySession() {
-  console.log("Verifying session... PUTOOOOO");
   const cookieStore = await cookies();
   const token = cookieStore.get("accessToken")?.value;
 
