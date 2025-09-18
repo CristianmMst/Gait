@@ -54,7 +54,7 @@ export default function Navigation({ user }: NavigationProps) {
               />
             );
           })}
-          {user?.type === "ADMIN" &&
+          {type === "ADMIN" &&
             routesAdmin.map((route) => {
               const isActive = pathname === route.path;
               return (
