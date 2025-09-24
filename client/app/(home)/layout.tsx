@@ -1,4 +1,3 @@
-import { CartProvider } from "../context/CartContext";
 import { getUser } from "../(auth)/actions/verifySession";
 import Navigation from "../shared/components/Navigation/Navigation";
 
@@ -11,12 +10,8 @@ export default async function HomeLayout({
 
   return (
     <main className="flex h-screen">
-      <CartProvider>
-        <Navigation user={user} />
-        <section className="flex-1 max-h-svh overflow-y-auto">
-          {children}
-        </section>
-      </CartProvider>
+      <Navigation user={user} />
+      <section className="flex-1 max-h-svh overflow-y-auto">{children}</section>
     </main>
   );
 }

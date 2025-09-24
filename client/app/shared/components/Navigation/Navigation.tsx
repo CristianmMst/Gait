@@ -6,7 +6,7 @@ import { Info, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/(auth)/actions/logout";
 import { Session } from "@/app/(auth)/actions/verifySession";
-import { routes, routesAdmin } from "../../config/routesLinks";
+import { routes, routesAdmin } from "../../../../lib/routesLinks";
 
 interface NavigationProps {
   user: Session;

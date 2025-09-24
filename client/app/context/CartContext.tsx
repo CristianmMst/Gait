@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export interface Product {
   id: string;
@@ -27,6 +27,24 @@ export const CartProvider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   const [items, setItems] = useState<Product[]>([]);
+
+  // Cargar items del localStorage al inicializar el componente
+  useEffect(() => {
+    const savedItems = localStorage.getItem("cart-items");
+    if (savedItems) {
+      try {
+        setItems(JSON.parse(savedItems));
+      } catch (error) {
+        console.error("Error parsing cart items from localStorage:", error);
+        localStorage.removeItem("cart-items");
+      }
+    }
+  }, []);
+
+  // Guardar items en localStorage cada vez que cambien
+  useEffect(() => {
+    localStorage.setItem("cart-items", JSON.stringify(items));
+  }, [items]);
 
   const addItem = (item: Product) => {
     setItems((prevItems) => {
