@@ -9,7 +9,7 @@ export function CartModal() {
     <div
       popover="auto"
       id="cart-popover"
-      className="bg-gray-700 rounded-md p-4 min-h-64 min-w-96 origin-top-right"
+      className="bg-zinc-900 border border-zinc-800 rounded-md p-4 min-h-64 min-w-96 origin-top-right"
     >
       <h2 className="text-white text-xl mb-2">Productos</h2>
       {items.length > 0 ? (

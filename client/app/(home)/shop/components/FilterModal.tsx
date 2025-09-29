@@ -23,13 +23,13 @@ export function FilterModal() {
     <div
       popover="auto"
       id="filter-popover"
-      className="bg-gray-700 rounded-md p-4 min-h-64 min-w-96 origin-top-right"
+      className="bg-zinc-900 border border-zinc-800 rounded-md p-4 min-h-64 min-w-96 origin-top-right"
     >
       <h2 className="text-white text-xl mb-2">Filtros</h2>
       <form className="flex flex-col gap-y-4">
         <div>
           <label className="text-slate-200 block mb-1">Categoría</label>
-          <select className="bg-gray-800 text-white rounded p-2 w-full">
+          <select className="p-2 border border-zinc-800 text-zinc-300 w-full rounded-md outline-none focus:ring-4 ring-primary/50 max-h-10 text-ellipsis">
             <option value="">Todas</option>
             <option value="categoria1">Categoría 1</option>
             <option value="categoria2">Categoría 2</option>
@@ -44,7 +44,7 @@ export function FilterModal() {
               max={maxPrice}
               value={minPrice}
               onChange={(e) => setMinPrice(Number(e.target.value))}
-              className="bg-gray-800 text-white rounded p-2 w-24 text-center focus:outline focus:outline-primary"
+              className="w-full p-2 text-white border-zinc-800 border rounded-md outline-none focus:border-primary focus:ring-4 ring-primary/50"
               placeholder="Mínimo"
               style={{ MozAppearance: "textfield" }}
             />
@@ -55,7 +55,7 @@ export function FilterModal() {
               max={600000}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="bg-gray-800 text-white rounded p-2 w-24 text-center focus:outline focus:outline-primary"
+              className="w-full p-2 text-white border-zinc-800 border rounded-md outline-none focus:border-primary focus:ring-4 ring-primary/50"
               placeholder="Máximo"
               style={{ MozAppearance: "textfield" }}
             />
@@ -65,7 +65,7 @@ export function FilterModal() {
           <label className="text-slate-200 block mb-1">Marca</label>
           <input
             type="text"
-            className="bg-gray-800 text-white rounded p-2 w-full"
+            className="w-full p-2 text-white border-zinc-800 border rounded-md outline-none focus:border-primary focus:ring-4 ring-primary/50"
             placeholder="Ej: Nike"
           />
         </div>
@@ -73,14 +73,14 @@ export function FilterModal() {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="bg-primary text-white rounded p-2 hover:bg-primary/80 transition-colors"
+            className="bg-primary text-white rounded p-2 hover:bg-primary/80 transition-colors cursor-pointer"
           >
             Aplicar filtros
           </button>
           <button
             type="button"
             onClick={handleClear}
-            className="bg-gray-500 text-white rounded p-2 hover:bg-gray-600 transition-colors"
+            className="text-red-500 underline rounded p-2 cursor-pointer"
           >
             Eliminar filtros
           </button>

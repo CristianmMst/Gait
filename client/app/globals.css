@@ -72,9 +72,9 @@ input::-webkit-inner-spin-button {
 #filter-popover {
   scale: 0;
   opacity: 0;
-  margin-top: 8px;
+  margin-top: 10px;
   top: anchor(bottom);
-  right: anchor(center);
+  right: anchor(right);
   position-anchor: --btn_filter;
   position-area: bottom left;
   transition: scale 0.2s ease-in-out, opacity 0.2s ease-in-out,
@@ -94,10 +94,10 @@ input::-webkit-inner-spin-button {
 #cart-popover {
   scale: 0;
   opacity: 0;
-  margin-top: 8px;
+  margin-top: 10px;
   position: absolute;
   top: anchor(bottom);
-  right: anchor(center);
+  right: anchor(right);
   position-anchor: --btn_cart;
   position-area: bottom left;
   transition: scale 0.2s ease-in-out, opacity 0.2s ease-in-out,

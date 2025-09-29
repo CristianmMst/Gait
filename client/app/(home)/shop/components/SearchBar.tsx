@@ -8,8 +8,8 @@ export function SearchBar() {
   const { items } = useCart();
   const totalItems = items.reduce((acc, item) => acc + item.amount, 0);
   return (
-    <div className="flex justify-between bg-gray-900 p-4 rounded-md">
-      <div className="flex justify-between gap-x-2 bg-gray-700 p-2 rounded-md">
+    <div className="flex justify-between bg-zinc-950 border border-zinc-900 p-4 rounded-md">
+      <div className="flex justify-between gap-x-2 bg-zinc-950 border border-zinc-900 p-2 rounded-md">
         <Search />
         <input
           type="text"
@@ -22,7 +22,7 @@ export function SearchBar() {
           <button
             type="button"
             popoverTarget="filter-popover"
-            className="flex items-center gap-x-2 bg-gray-700 p-2 rounded-md btn_filter_modal cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
+            className="flex items-center gap-x-2 bg-zinc-800 p-2 rounded-md btn_filter_modal cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
           >
             <Funnel />
             <span>Filtros</span>
@@ -33,7 +33,7 @@ export function SearchBar() {
           <button
             type="button"
             popoverTarget="cart-popover"
-            className="flex items-center bg-gray-700 p-2 px-3 rounded-md btn_cart_modal cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
+            className="flex items-center bg-zinc-800 p-2 px-3 rounded-md btn_cart_modal cursor-pointer transition-colors duration-300 hover:bg-primary hover:text-slate-100"
           >
             <ShoppingCart />
             {totalItems > 0 && (

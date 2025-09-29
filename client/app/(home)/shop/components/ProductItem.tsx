@@ -9,7 +9,7 @@ export function ProductItem({ product }: { product: Product }) {
   return (
     <div
       key={product.id}
-      className="flex flex-col gap-y-2 bg-gray-900 rounded-md p-6 py-6 h-full min-h-[320px]"
+      className="flex flex-col gap-y-2 bg-zinc-950 border border-zinc-900 rounded-md p-6 py-6 h-full min-h-[320px]"
     >
       <Link
         href={`/shop/${product.id}`}
