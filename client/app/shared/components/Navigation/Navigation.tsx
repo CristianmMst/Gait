@@ -22,7 +22,7 @@ export default function Navigation({ user }: NavigationProps) {
   });
 
   return (
-    <nav className="flex flex-col justify-between w-72 h-full border-r border-slate-600">
+    <nav className="flex flex-col justify-between w-72 h-full border-r border-zinc-900 bg-black">
       <div className="flex flex-col items-center">
         <div className="flex justify-center items-center gap-4 p-6 py-8 w-full ">
           <Image

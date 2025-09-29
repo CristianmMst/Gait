@@ -11,7 +11,9 @@ export default async function HomeLayout({
   return (
     <main className="flex h-screen">
       <Navigation user={user} />
-      <section className="flex-1 max-h-svh overflow-y-auto">{children}</section>
+      <section className="flex-1 max-h-svh overflow-y-auto bg-black">
+        {children}
+      </section>
     </main>
   );
 }

@@ -119,3 +119,48 @@ input::-webkit-inner-spin-button {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) transparent;
 }
+
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select::picker-icon {
+  padding-inline: 0.5rem;
+}
+
+select::picker(select) {
+  @apply bg-zinc-950 border-zinc-800 text-zinc-400 p-1 rounded-md mt-1;
+}
+
+select option {
+  @apply font-sans rounded-md hover:bg-accent hover:text-zinc-900 px-2 py-1 mb-1;
+
+  &:checked {
+    @apply bg-accent text-zinc-900;
+
+    &::checkmark {
+      order: 1;
+      content: "✓";
+      padding-right: 0.5rem;
+    }
+  }
+
+  &::checkmark {
+    order: 1;
+    content: none;
+  }
+}
+
+select:open::picker(select) {
+  scale: 1;
+  opacity: 1;
+  transform-origin: top left;
+  transition: scale 0.2s ease-in-out, opacity 0.2s ease-in-out,
+    display 0.2s ease-in-out allow-discrete;
+
+  @starting-style {
+    scale: 0;
+    opacity: 0;
+  }
+}

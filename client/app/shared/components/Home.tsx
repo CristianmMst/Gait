@@ -30,7 +30,7 @@ const links = [
 
 export default function Home() {
   return (
-    <section className="flex-1 p-8">
+    <section className="flex-1 p-8 bg-black">
       <div className="bg-linear-to-br from-secondary via-primary to-secondary rounded-xl p-8">
         <h2 className="text-3xl font-bold">Distribuye productos de calidad</h2>
         <p className="w-1/2 mt-2">
