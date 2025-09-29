@@ -43,6 +43,11 @@ export class ProductService {
   }
 
   async create(data: Partial<Product>): Promise<Product> {
+    // Si no se proporciona imagen o está vacía, no incluir el campo para que use el default de DB
+    if (!data.image || data.image.trim() === "") {
+      delete data.image;
+    }
+
     const product = this.productRepository.create(data);
     return this.productRepository.save(product);
   }
@@ -50,6 +55,15 @@ export class ProductService {
   async update(id: number, data: Partial<Product>): Promise<Product | null> {
     const product = await this.findById(id);
     if (!product) return null;
+
+    // Si se está intentando actualizar con imagen vacía, no incluir el campo
+    if (
+      data.hasOwnProperty("image") &&
+      (!data.image || data.image.trim() === "")
+    ) {
+      delete data.image;
+    }
+
     Object.assign(product, data);
     return this.productRepository.save(product);
   }

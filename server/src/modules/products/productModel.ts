@@ -7,7 +7,13 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({
+    type: "varchar",
+    length: 255,
+    nullable: false,
+    default:
+      "https://ik.imagekit.io/ProjectGait/no_image_available.png?updatedAt=1759163953976",
+  })
   image: string;
 
   @Column({ type: "varchar", length: 80, nullable: false })
