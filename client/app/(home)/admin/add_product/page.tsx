@@ -1,57 +1,125 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
-import { Upload, X, Save, Eye } from "lucide-react";
-import { Label } from "./components/Label";
+import { useState, useEffect } from "react";
+import { Upload, X, Save } from "lucide-react";
 import { Card } from "./components/Card";
-import { Input } from "./components/Input";
-
-const categories = [
-  "Electrónicos",
-  "Audio",
-  "Computadoras",
-  "Wearables",
-  "Tablets",
-  "Fotografía",
-  "Hogar",
-  "Deportes",
-  "Moda",
-  "Salud",
-];
-
-const brands = [
-  "TechCorp",
-  "AudioMax",
-  "GameTech",
-  "HealthTech",
-  "TabletCorp",
-  "PhotoPro",
-  "SmartHome",
-  "SportsPro",
-  "FashionTech",
-  "WellnessTech",
-];
+import FormInput from "./components/FormInput";
+import FormSelect from "./components/FormSelect";
+import FormTextArea from "./components/FormTextArea";
+import ButtonSubmit from "./components/ButtonSubmit";
+import {
+  getBrands,
+  getCategories,
+  type Brand,
+  type Category,
+} from "../../shop/actions/getProducts";
+import { createProductAction } from "../actions/createProduct";
+import { FormState } from "@/lib/definitions";
 
 export default function AddProductPage() {
-  const [formData, setFormData] = useState({
+  const [images, setImages] = useState<string[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [formValues, setFormValues] = useState({
     name: "",
-    brand: "",
-    category: "",
     price: "",
-    originalPrice: "",
     discount: "",
     description: "",
-    specifications: "",
-    inStock: true,
-    featured: false,
+    stock: "",
+    brandId: "",
+    categoryId: "",
   });
+  const [state, setState] = useState<FormState>(undefined);
+  const [pending, setPending] = useState(false);
 
-  const [images, setImages] = useState<string[]>([]);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [brandsData, categoriesData] = await Promise.all([
+          getBrands(),
+          getCategories(),
+        ]);
+        setBrands(brandsData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error loading brands and categories:", error);
+      }
+    };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (state?.success) {
+      setImages([]);
+      setFormValues({
+        name: "",
+        price: "",
+        discount: "",
+        description: "",
+        stock: "",
+        brandId: "",
+        categoryId: "",
+      });
+    }
+  }, [state?.success]);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormValues((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    setState(undefined);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const result = await createProductAction(undefined, formData);
+      setState(result);
+
+      if (result?.success) {
+        setFormValues({
+          name: "",
+          price: "",
+          discount: "",
+          description: "",
+          stock: "",
+          brandId: "",
+          categoryId: "",
+        });
+        setImages([]);
+      } else {
+        setFormValues({
+          name: (formData.get("name") as string) || "",
+          price: (formData.get("price") as string) || "",
+          discount: (formData.get("discount") as string) || "",
+          description: (formData.get("description") as string) || "",
+          stock: (formData.get("stock") as string) || "",
+          brandId: (formData.get("brandId") as string) || "",
+          categoryId: (formData.get("categoryId") as string) || "",
+        });
+      }
+    } catch (error) {
+      setState({
+        message: "Error de conexión. Intenta nuevamente.",
+      });
+      setFormValues({
+        name: (formData.get("name") as string) || "",
+        price: (formData.get("price") as string) || "",
+        discount: (formData.get("discount") as string) || "",
+        description: (formData.get("description") as string) || "",
+        stock: (formData.get("stock") as string) || "",
+        brandId: (formData.get("brandId") as string) || "",
+        categoryId: (formData.get("categoryId") as string) || "",
+      });
+    } finally {
+      setPending(false);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,25 +141,6 @@ export default function AddProductPage() {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Producto creado:", { ...formData, images });
-    // Aquí iría la lógica para enviar el producto al backend
-  };
-
-  const calculateDiscount = () => {
-    if (formData.price && formData.originalPrice) {
-      const price = Number.parseFloat(formData.price);
-      const originalPrice = Number.parseFloat(formData.originalPrice);
-      if (originalPrice > price) {
-        const discount = Math.round(
-          ((originalPrice - price) / originalPrice) * 100
-        );
-        setFormData((prev) => ({ ...prev, discount: discount.toString() }));
-      }
-    }
-  };
-
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <div className="mb-8">
@@ -104,85 +153,80 @@ export default function AddProductPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Basic Information */}
         <Card title="Información Básica">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <Label htmlFor="name">Nombre del Producto *</Label>
-              <Input
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Ej: Limpiador de plásticos 650ml"
-              />
-            </div>
-            <div className="flex gap-x-4">
-              <div className="space-y-4">
-                <Label htmlFor="brand">Marca *</Label>
-                <select
-                  id="brand"
-                  value={formData.brand}
-                  title="Selecciona una marca"
-                  className="p-2 border border-zinc-800 rounded-md text-zinc-500"
-                  onChange={(e) => handleInputChange("brand", e.target.value)}
-                >
-                  {brands.map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-4">
-                <Label htmlFor="category">Categoría *</Label>
-                <select
-                  id="category"
-                  title="Selecciona una categoría"
-                  value={formData.category}
-                  className="p-2 border border-zinc-800 rounded-md text-zinc-500"
-                  onChange={(e) =>
-                    handleInputChange("category", e.target.value)
-                  }
-                >
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        </Card>
+            <FormInput
+              name="name"
+              label="Nombre del Producto"
+              placeholder="Ej: Limpiador de plásticos 650ml"
+              value={formValues.name}
+              onChange={handleInputChange}
+              error={state?.errors?.name}
+              required
+            />
 
-        {/* Pricing */}
-        <Card title="Precios">
-          <div className="flex gap-x-4">
-            <div className="flex flex-col gap-y-2">
-              <label htmlFor="price">Precio *</label>
-              <Input
-                name="price"
-                type="number"
-                placeholder="0.00"
-                value={formData.price}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormSelect
+                name="brandId"
+                label="Marca"
+                options={brands}
+                value={formValues.brandId}
                 onChange={handleInputChange}
+                error={state?.errors?.brandId}
+                required
               />
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <label htmlFor="discount">Descuento (%)</label>
-              <Input
-                name="discount"
-                type="number"
-                value={formData.discount}
+
+              <FormSelect
+                name="categoryId"
+                label="Categoría"
+                options={categories}
+                value={formValues.categoryId}
                 onChange={handleInputChange}
-                placeholder="0"
+                error={state?.errors?.categoryId}
+                required
               />
             </div>
           </div>
         </Card>
 
-        {/* Images */}
+        <Card title="Precios y Stock">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormInput
+              name="price"
+              type="number"
+              label="Precio"
+              placeholder="0.00"
+              value={formValues.price}
+              onChange={handleInputChange}
+              error={state?.errors?.price}
+              required
+            />
+
+            <FormInput
+              name="discount"
+              type="number"
+              label="Descuento (%)"
+              placeholder="0"
+              value={formValues.discount}
+              onChange={handleInputChange}
+              error={state?.errors?.discount}
+            />
+
+            <FormInput
+              name="stock"
+              type="number"
+              label="Stock inicial"
+              placeholder="0"
+              value={formValues.stock}
+              onChange={handleInputChange}
+              error={state?.errors?.stock}
+            />
+          </div>
+        </Card>
+
         <Card title="Imagen del Producto">
+          <input type="hidden" name="image" value={images[0] || ""} />
+
           <div className="border-2 border-dashed border-zinc-800 rounded-lg p-8 text-center mt-8">
             <input
               multiple
@@ -204,7 +248,7 @@ export default function AddProductPage() {
           </div>
 
           {images.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
               {images.map((image, index) => (
                 <div key={index} className="relative group">
                   <img
@@ -214,7 +258,7 @@ export default function AddProductPage() {
                   />
                   <button
                     type="button"
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white rounded-full p-1"
                     onClick={() => removeImage(index)}
                   >
                     <X className="h-4 w-4" />
@@ -223,31 +267,45 @@ export default function AddProductPage() {
               ))}
             </div>
           )}
+
+          {state?.errors?.image && (
+            <span className="text-sm text-red-500 mt-2 block">
+              {state.errors.image[0]}
+            </span>
+          )}
         </Card>
 
-        {/* Description */}
         <Card title="Descripción y Especificaciones">
-          <div className="flex flex-col gap-y-2">
-            <label htmlFor="description">Descripción del Producto *</label>
-            <textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Describe las características principales del producto..."
-              rows={4}
-              required
-              className="w-full p-2 border-zinc-800 border rounded-md outline-none focus:border-primary focus:ring-4 ring-primary/50"
-            />
-          </div>
+          <FormTextArea
+            name="description"
+            label="Descripción del Producto"
+            placeholder="Describe las características principales del producto..."
+            value={formValues.description}
+            onChange={handleInputChange}
+            error={state?.errors?.description}
+            required
+            rows={4}
+          />
         </Card>
-        <button
-          type="submit"
-          className="flex items-center p-2 rounded-md justify-self-end bg-primary hover:bg-primary/90 cursor-pointer"
-          onClick={handleSubmit}
-        >
-          <Save className="h-4 w-4 mr-2" />
-          Crear Producto
-        </button>
+
+        <div className="flex items-center justify-between">
+          <div>
+            {state?.message && (
+              <p
+                className={`text-sm ${
+                  state.success ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {state.message}
+              </p>
+            )}
+          </div>
+
+          <ButtonSubmit pending={pending}>
+            <Save className="h-4 w-4 mr-2" />
+            Crear Producto
+          </ButtonSubmit>
+        </div>
       </form>
     </div>
   );
