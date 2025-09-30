@@ -1,27 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCategories, Category } from "../actions/getProducts";
+import { Category } from "../actions/getProducts";
 
-export function FilterModal() {
+interface FilterModalProps {
+  initialCategories?: Category[];
+}
+
+export function FilterModal({ initialCategories = [] }: FilterModalProps) {
   const router = useRouter();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(600000);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const categoriesData = await getCategories();
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Error loading categories:", error);
-      }
-    };
-    loadCategories();
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +47,7 @@ export function FilterModal() {
             className="p-2 border border-zinc-800 text-zinc-300 w-full rounded-md outline-none focus:ring-4 ring-primary/50 max-h-10 text-ellipsis bg-zinc-900"
           >
             <option value="">Todas</option>
-            {categories.map((category) => (
+            {initialCategories.map((category: Category) => (
               <option key={category.id} value={category.id.toString()}>
                 {category.name}
               </option>

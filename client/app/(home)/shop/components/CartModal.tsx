@@ -16,7 +16,7 @@ export function CartModal() {
         items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center gap-x-4 justify-between py-2 border-b border-gray-600"
+            className="flex items-center gap-x-4 justify-between py-2 border-b border-zinc-700"
           >
             <div className="flex items-center gap-2">
               <Image
@@ -34,7 +34,7 @@ export function CartModal() {
               </span>
             </div>
             <span className="text-slate-300">${item.price}</span>
-            <div className="flex items-center gap-x-3 border rounded-md px-2 py-1 border-gray-500 hover:border-gray-800">
+            <div className="flex items-center gap-x-3 border rounded-md px-2 py-1 border-zinc-700 hover:border-gray-800">
               <button
                 onClick={() => removeItem(item.id)}
                 className="text-white text-xl px-2 rounded cursor-pointer"

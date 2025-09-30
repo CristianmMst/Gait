@@ -3,8 +3,13 @@ import { Funnel, Search, ShoppingCart } from "lucide-react";
 import { CartModal } from "./CartModal";
 import { FilterModal } from "./FilterModal";
 import { useCart } from "@/app/context/CartContext";
+import { Category } from "../actions/getProducts";
 
-export function SearchBar() {
+interface SearchBarProps {
+  categories: Category[];
+}
+
+export function SearchBar({ categories }: SearchBarProps) {
   const { items } = useCart();
   const totalItems = items.reduce((acc, item) => acc + item.amount, 0);
   return (
@@ -27,7 +32,7 @@ export function SearchBar() {
             <Funnel />
             <span>Filtros</span>
           </button>
-          <FilterModal />
+          <FilterModal initialCategories={categories} />
         </div>
         <div className="relative">
           <button
