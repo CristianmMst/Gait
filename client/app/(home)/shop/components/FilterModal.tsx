@@ -1,21 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getCategories, Category } from "../actions/getProducts";
 
 export function FilterModal() {
   const router = useRouter();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(600000);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
+    };
+    loadCategories();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(`/shop?minPrice=${minPrice}&maxPrice=${maxPrice}`);
+    const params = new URLSearchParams();
+    if (minPrice > 0) params.append("minPrice", minPrice.toString());
+    if (maxPrice < 600000) params.append("maxPrice", maxPrice.toString());
+    if (selectedCategory) params.append("categoryId", selectedCategory);
+
+    router.push(`/shop${params.toString() ? "?" + params.toString() : ""}`);
   };
 
   const handleClear = () => {
     setMinPrice(0);
     setMaxPrice(600000);
+    setSelectedCategory("");
     router.push("/shop");
   };
 
@@ -29,10 +50,17 @@ export function FilterModal() {
       <form className="flex flex-col gap-y-4">
         <div>
           <label className="text-slate-200 block mb-1">Categoría</label>
-          <select className="p-2 border border-zinc-800 text-zinc-300 w-full rounded-md outline-none focus:ring-4 ring-primary/50 max-h-10 text-ellipsis">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="p-2 border border-zinc-800 text-zinc-300 w-full rounded-md outline-none focus:ring-4 ring-primary/50 max-h-10 text-ellipsis bg-zinc-900"
+          >
             <option value="">Todas</option>
-            <option value="categoria1">Categoría 1</option>
-            <option value="categoria2">Categoría 2</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id.toString()}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
         <div>
