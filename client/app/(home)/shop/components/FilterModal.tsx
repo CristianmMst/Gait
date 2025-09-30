@@ -2,17 +2,22 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Category } from "../actions/getProducts";
+import { Category, Brand } from "../actions/getProducts";
 
 interface FilterModalProps {
   initialCategories?: Category[];
+  initialBrands?: Brand[];
 }
 
-export function FilterModal({ initialCategories = [] }: FilterModalProps) {
+export function FilterModal({
+  initialCategories = [],
+  initialBrands = [],
+}: FilterModalProps) {
   const router = useRouter();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(600000);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +25,7 @@ export function FilterModal({ initialCategories = [] }: FilterModalProps) {
     if (minPrice > 0) params.append("minPrice", minPrice.toString());
     if (maxPrice < 600000) params.append("maxPrice", maxPrice.toString());
     if (selectedCategory) params.append("categoryId", selectedCategory);
+    if (selectedBrand) params.append("brandId", selectedBrand);
 
     router.push(`/shop${params.toString() ? "?" + params.toString() : ""}`);
   };
@@ -28,6 +34,7 @@ export function FilterModal({ initialCategories = [] }: FilterModalProps) {
     setMinPrice(0);
     setMaxPrice(600000);
     setSelectedCategory("");
+    setSelectedBrand("");
     router.push("/shop");
   };
 
@@ -50,6 +57,21 @@ export function FilterModal({ initialCategories = [] }: FilterModalProps) {
             {initialCategories.map((category: Category) => (
               <option key={category.id} value={category.id.toString()}>
                 {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="text-slate-200 block mb-1">Marca</label>
+          <select
+            value={selectedBrand}
+            onChange={(e) => setSelectedBrand(e.target.value)}
+            className="p-2 border border-zinc-800 text-zinc-300 w-full rounded-md outline-none focus:ring-4 ring-primary/50 max-h-10 text-ellipsis bg-zinc-900"
+          >
+            <option value="">Todas</option>
+            {initialBrands.map((brand: Brand) => (
+              <option key={brand.id} value={brand.id.toString()}>
+                {brand.name}
               </option>
             ))}
           </select>
@@ -80,14 +102,7 @@ export function FilterModal({ initialCategories = [] }: FilterModalProps) {
             />
           </div>
         </div>
-        <div>
-          <label className="text-slate-200 block mb-1">Marca</label>
-          <input
-            type="text"
-            className="w-full p-2 text-white border-zinc-800 border rounded-md outline-none focus:border-primary focus:ring-4 ring-primary/50"
-            placeholder="Ej: Nike"
-          />
-        </div>
+
         <div className="flex gap-x-2 mt-2">
           <button
             type="submit"

@@ -24,10 +24,11 @@ export async function getProductById(id: number): Promise<Product> {
 export async function getProducts(
   categoryId?: string,
   minPrice?: number,
-  maxPrice?: number
+  maxPrice?: number,
+  brandId?: string
 ): Promise<Product[]> {
   const cacheOption =
-    !categoryId && !minPrice && !maxPrice
+    !categoryId && !minPrice && !maxPrice && !brandId
       ? { next: { revalidate: 300 } }
       : { cache: "no-store" as const };
 
@@ -35,8 +36,8 @@ export async function getProducts(
     `${config.serverUrl}/products?${
       categoryId ? `categoryId=${categoryId}&` : ""
     }${minPrice ? `minPrice=${minPrice}&` : ""}${
-      maxPrice ? `maxPrice=${maxPrice}` : ""
-    }`,
+      maxPrice ? `maxPrice=${maxPrice}&` : ""
+    }${brandId ? `brandId=${brandId}` : ""}`,
     cacheOption
   );
   if (!response.ok) {
