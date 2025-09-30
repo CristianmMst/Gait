@@ -76,7 +76,7 @@ export default function Navigation({ user }: NavigationProps) {
         </button>
         <button
           onClick={logout}
-          className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-300 ease-out"
+          className="flex items-center gap-2 p-4 py-3 hover:bg-primary hover:text-slate-100 rounded-lg transition-colors duration-300 ease-out cursor-pointer"
         >
           <LogOut />
           <span className="text-sm">Cerrar sesión</span>
