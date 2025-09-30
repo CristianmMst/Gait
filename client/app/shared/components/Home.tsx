@@ -4,7 +4,7 @@ import { Truck, Folders, ShoppingCart, CircleDollarSign } from "lucide-react";
 const links = [
   {
     name: "Crear pedido",
-    href: "/products",
+    href: "/shop",
     icon: <ShoppingCart className="text-secondary" size={24} />,
     bgColor: "bg-primary/20",
   },
