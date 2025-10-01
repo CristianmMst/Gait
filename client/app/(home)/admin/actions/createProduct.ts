@@ -50,6 +50,7 @@ export async function createProductAction(
         brandId,
         categoryId,
       }),
+      credentials: "include",
     });
 
     const data = await response.json();

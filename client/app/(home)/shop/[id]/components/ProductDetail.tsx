@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { Product, useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
-import { useRouter } from "next/navigation";
 import { TYPE_USERS } from "@/app/shared/enums/user";
 
 export function ProductDetail({
@@ -25,7 +24,6 @@ export function ProductDetail({
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -36,12 +34,16 @@ export function ProductDetail({
   const handleDeleteProduct = () => {
     if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
       startTransition(async () => {
-        const result = await deleteProductAction(product.id);
-        if (result.success) {
-          alert(result.message);
-          router.push("/shop");
-        } else {
-          alert(result.message);
+        try {
+          await deleteProductAction(product.id);
+          // La redirección se maneja automáticamente en la server action
+        } catch (error) {
+          // Solo manejamos errores de autenticación o conexión
+          if (error && typeof error === 'object' && 'message' in error) {
+            alert(error.message);
+          } else {
+            alert("Error al eliminar el producto");
+          }
         }
       });
     }

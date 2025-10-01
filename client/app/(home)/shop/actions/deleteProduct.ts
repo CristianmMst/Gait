@@ -2,6 +2,8 @@
 
 import { config } from "@/lib/config";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function deleteProductAction(productId: string) {
   try {
@@ -33,14 +35,18 @@ export async function deleteProductAction(productId: string) {
       };
     }
 
-    return {
-      success: true,
-      message: "Producto eliminado exitosamente",
-    };
+    // Revalidar todas las páginas relacionadas con productos
+    revalidatePath("/shop");
+    revalidatePath("/shop/[id]", "page");
+    revalidatePath("/", "layout"); // Revalidar layout en caso de que haya productos en caché global
+
   } catch (error) {
     return {
       success: false,
       message: "Error de conexión. Intenta nuevamente.",
     };
   }
+
+  // Redirigir solo si la eliminación fue exitosa
+  redirect("/shop");
 }
