@@ -10,6 +10,7 @@ class ProductRoutes {
     router.get("/", productController.getProducts);
     router.post("/", validateAdmin, productController.createProduct);
     router.get("/:id", productController.getProductById);
+    router.put("/:id", validateAdmin, productController.updateProduct);
     router.delete("/:id", validateAdmin, productController.deleteProduct);
 
     return router;

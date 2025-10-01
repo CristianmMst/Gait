@@ -118,4 +118,68 @@ export class ProductController {
       next(error);
     }
   };
+
+  updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const {
+        name,
+        price,
+        discount,
+        description,
+        stock,
+        image,
+        brandId,
+        categoryId,
+      } = req.body;
+
+      if (!id || isNaN(Number(id))) {
+        return res.status(400).json({
+          message: "ID de producto inválido",
+        });
+      }
+
+      const productId = Number(id);
+
+      const existingProduct = await this.productService.findById(productId);
+      if (!existingProduct) {
+        return res.status(404).json({
+          message: "Producto no encontrado",
+        });
+      }
+
+      const updateData: any = {};
+
+      if (name !== undefined) updateData.name = name;
+      if (price !== undefined) updateData.price = Number(price);
+      if (discount !== undefined) updateData.discount = Number(discount);
+      if (description !== undefined) updateData.description = description;
+      if (stock !== undefined) updateData.stock = Number(stock);
+      if (image !== undefined) updateData.image = image;
+
+      if (brandId !== undefined) {
+        const brand = new Brand();
+        brand.id = Number(brandId);
+        updateData.brand = brand;
+      }
+
+      if (categoryId !== undefined) {
+        const category = new Category();
+        category.id = Number(categoryId);
+        updateData.category = category;
+      }
+
+      const updatedProduct = await this.productService.update(
+        productId,
+        updateData
+      );
+
+      res.status(200).json({
+        message: "Producto actualizado exitosamente",
+        product: updatedProduct,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
