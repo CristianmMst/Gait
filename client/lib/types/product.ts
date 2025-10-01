@@ -1,8 +1,3 @@
-/**
- * Tipos centralizados para la aplicación
- * Todos los tipos relacionados con productos, marcas, categorías, etc.
- */
-
 export interface Brand {
   id: number;
   name: string;
@@ -26,10 +21,6 @@ export interface Product {
   category: Category;
 }
 
-/**
- * Tipo para productos en el carrito
- * Extiende Product y agrega la cantidad de items en el carrito
- */
 export interface CartProduct extends Product {
-  amount: number; // cantidad de este producto en el carrito
+  amount: number;
 }
