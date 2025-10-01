@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Product, useCart } from "@/app/context/CartContext";
+import { useCart } from "@/app/context/CartContext";
+import { Product } from "@/lib/types";
 
 export function ProductItem({ product }: { product: Product }) {
   const { items, addItem, removeItem } = useCart();

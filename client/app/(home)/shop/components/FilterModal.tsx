@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Category, Brand } from "../actions/getProducts";
+import { Category, Brand } from "@/lib/types";
 
 interface FilterModalProps {
   initialCategories?: Category[];

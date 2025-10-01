@@ -3,7 +3,7 @@ import { Funnel, Search, ShoppingCart } from "lucide-react";
 import { CartModal } from "./CartModal";
 import { FilterModal } from "./FilterModal";
 import { useCart } from "@/app/context/CartContext";
-import { Category, Brand } from "../actions/getProducts";
+import { Category, Brand } from "@/lib/types";
 
 interface SearchBarProps {
   categories: Category[];

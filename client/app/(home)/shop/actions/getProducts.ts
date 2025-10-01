@@ -1,17 +1,8 @@
 import { config } from "@/lib/config";
-import { Product } from "@/app/context/CartContext";
+import { Product, Brand, Category } from "@/lib/types";
 import { cache } from "react";
 
-export interface Brand {
-  id: number;
-  name: string;
-}
-
-export interface Category {
-  id: number;
-  name: string;
-  description: string;
-}
+export type { Brand, Category };
 
 export async function getProductById(id: number): Promise<Product> {
   const response = await fetch(`${config.serverUrl}/products/${id}`);

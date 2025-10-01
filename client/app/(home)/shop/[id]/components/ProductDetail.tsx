@@ -9,17 +9,24 @@ import {
   ArrowLeft,
   ShoppingCart,
   CircleCheckBig,
+  Pencil,
 } from "lucide-react";
 import { TYPE_USERS } from "@/app/shared/enums/user";
-import { Product, useCart } from "@/app/context/CartContext";
+import { useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
+import { EditProductModal } from "./EditProductModal";
+import { Product, Brand, Category } from "@/lib/types";
 
 export function ProductDetail({
   product,
   user,
+  brands,
+  categories,
 }: {
   product: Product;
   user?: { type: TYPE_USERS; name: string } | null;
+  brands: Brand[];
+  categories: Category[];
 }) {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -120,15 +127,31 @@ export function ProductDetail({
               </button>
 
               {isAdmin && (
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={handleDeleteProduct}
-                  className="flex items-center text-red-500 text-lg rounded-md cursor-pointer"
-                >
-                  <Trash2 size={25} />
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    popoverTarget="edit-product-popover"
+                    className="flex items-center text-blue-500 hover:text-blue-400 text-lg rounded-md cursor-pointer transition-colors"
+                    title="Editar producto"
+                  >
+                    <Pencil size={25} />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isPending}
+                    onClick={handleDeleteProduct}
+                    className="flex items-center text-red-500 hover:text-red-400 text-lg rounded-md cursor-pointer transition-colors disabled:opacity-50"
+                    title="Eliminar producto"
+                  >
+                    <Trash2 size={25} />
+                  </button>
+                </div>
               )}
+              <EditProductModal
+                product={product}
+                brands={brands}
+                categories={categories}
+              />
             </div>
           </div>
         </div>

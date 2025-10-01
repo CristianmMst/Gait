@@ -1,24 +1,11 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  amount: number;
-  image: string;
-  stock: number;
-  description: string;
-  category: {
-    id: string;
-    name: string;
-  };
-}
+import { CartProduct, Product } from "@/lib/types";
 
 interface CartContextType {
-  items: Product[];
+  items: CartProduct[];
   addItem: (item: Product) => void;
-  removeItem: (itemId: string) => void;
+  removeItem: (itemId: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -26,9 +13,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
-  const [items, setItems] = useState<Product[]>([]);
+  const [items, setItems] = useState<CartProduct[]>([]);
 
-  // Cargar items del localStorage al inicializar el componente
   useEffect(() => {
     const savedItems = localStorage.getItem("cart-items");
     if (savedItems) {
@@ -41,7 +27,6 @@ export const CartProvider = ({
     }
   }, []);
 
-  // Guardar items en localStorage cada vez que cambien
   useEffect(() => {
     localStorage.setItem("cart-items", JSON.stringify(items));
   }, [items]);
@@ -58,7 +43,7 @@ export const CartProvider = ({
     });
   };
 
-  const removeItem = (itemId: string) => {
+  const removeItem = (itemId: number) => {
     setItems((prevItems) =>
       prevItems.reduce((acc, item) => {
         if (item.id === itemId) {
@@ -69,7 +54,7 @@ export const CartProvider = ({
           acc.push(item);
         }
         return acc;
-      }, [] as Product[])
+      }, [] as CartProduct[])
     );
   };
 

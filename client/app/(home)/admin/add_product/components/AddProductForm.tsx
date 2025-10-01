@@ -9,7 +9,7 @@ import FormTextArea from "./FormTextArea";
 import ButtonSubmit from "./ButtonSubmit";
 import { createProductAction } from "../../actions/createProduct";
 import { FormState } from "@/lib/definitions";
-import { type Brand, type Category } from "../../../shop/actions/getProducts";
+import { type Brand, type Category } from "@/lib/types";
 
 interface AddProductFormProps {
   initialBrands: Brand[];
