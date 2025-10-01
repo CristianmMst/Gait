@@ -2,18 +2,46 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { ArrowLeft, CircleCheckBig, CircleX, ShoppingCart } from "lucide-react";
+import { useState, useTransition } from "react";
+import { ArrowLeft, CircleCheckBig, CircleX, ShoppingCart, Trash2 } from "lucide-react";
 import { Product, useCart } from "@/app/context/CartContext";
+import { deleteProductAction } from "../../actions/deleteProduct";
+import { useRouter } from "next/navigation";
+import { TYPE_USERS } from "@/app/shared/enums/user";
 
-export function ProductDetail({ product }: { product: Product }) {
+export function ProductDetail({ 
+  product, 
+  user 
+}: { 
+  product: Product;
+  user?: { type: TYPE_USERS; name: string } | null;
+}) {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addItem(product);
     }
   };
+
+  const handleDeleteProduct = () => {
+    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+      startTransition(async () => {
+        const result = await deleteProductAction(product.id);
+        if (result.success) {
+          alert(result.message);
+          router.push("/shop");
+        } else {
+          alert(result.message);
+        }
+      });
+    }
+  };
+
+  const isAdmin = user?.type === TYPE_USERS.ADMIN;
 
   return (
     <div className="p-8">
@@ -88,6 +116,18 @@ export function ProductDetail({ product }: { product: Product }) {
               <ShoppingCart size={25} />
               Agregar al carrito
             </button>
+
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={handleDeleteProduct}
+                disabled={isPending}
+                className="flex gap-x-4 items-center self-start mt-2 text-lg bg-red-600 px-4 py-2 rounded-md shadow cursor-pointer hover:bg-red-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Trash2 size={25} />
+                {isPending ? "Eliminando..." : "Eliminar producto"}
+              </button>
+            )}
           </div>
         </div>
       </div>
