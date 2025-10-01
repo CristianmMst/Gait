@@ -41,7 +41,7 @@ export function EditProductModal({
       ref={popoverRef}
       id="edit-product-popover"
       popover="auto"
-      className="bg-zinc-950 rounded-lg text-white w-full max-w-2xl overflow-y-auto p-0 border border-zinc-900 m-auto"
+      className="bg-zinc-950 rounded-lg text-white w-full max-w-2xl border border-zinc-900 m-auto"
     >
       <div className="sticky top-0 border-b border-zinc-800 p-4 flex items-center justify-between bg-zinc-950">
         <h2 className="text-2xl font-bold flex items-center gap-2">
