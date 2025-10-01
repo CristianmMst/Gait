@@ -39,7 +39,7 @@ export function ProductDetail({
           // La redirección se maneja automáticamente en la server action
         } catch (error) {
           // Solo manejamos errores de autenticación o conexión
-          if (error && typeof error === 'object' && 'message' in error) {
+          if (error && typeof error === "object" && "message" in error) {
             alert(error.message);
           } else {
             alert("Error al eliminar el producto");
