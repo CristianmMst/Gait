@@ -83,4 +83,39 @@ export class ProductController {
       next(error);
     }
   };
+
+  deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      if (!id || isNaN(Number(id))) {
+        return res.status(400).json({
+          message: "ID de producto inválido",
+        });
+      }
+
+      const productId = Number(id);
+
+      const existingProduct = await this.productService.findById(productId);
+      if (!existingProduct) {
+        return res.status(404).json({
+          message: "Producto no encontrado",
+        });
+      }
+
+      const deleted = await this.productService.delete(productId);
+
+      if (!deleted) {
+        return res.status(500).json({
+          message: "Error al eliminar el producto",
+        });
+      }
+
+      res.status(200).json({
+        message: "Producto eliminado exitosamente",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ProductController } from "./productController";
+import { validateAdmin } from "../admin/middlewares/validateAdmin";
 
 class ProductRoutes {
   static get routes(): Router {
@@ -7,8 +8,9 @@ class ProductRoutes {
     const productController = new ProductController();
 
     router.get("/", productController.getProducts);
-    router.post("/", productController.createProduct);
+    router.post("/", validateAdmin, productController.createProduct);
     router.get("/:id", productController.getProductById);
+    router.delete("/:id", validateAdmin, productController.deleteProduct);
 
     return router;
   }
