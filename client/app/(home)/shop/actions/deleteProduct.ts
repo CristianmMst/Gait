@@ -39,7 +39,6 @@ export async function deleteProductAction(productId: string) {
     revalidatePath("/shop");
     revalidatePath("/shop/[id]", "page");
     revalidatePath("/", "layout"); // Revalidar layout en caso de que haya productos en caché global
-
   } catch (error) {
     return {
       success: false,

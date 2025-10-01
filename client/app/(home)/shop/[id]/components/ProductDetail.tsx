@@ -4,15 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import {
-  ArrowLeft,
-  CircleCheckBig,
-  CircleX,
-  ShoppingCart,
   Trash2,
+  CircleX,
+  ArrowLeft,
+  ShoppingCart,
+  CircleCheckBig,
 } from "lucide-react";
+import { TYPE_USERS } from "@/app/shared/enums/user";
 import { Product, useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
-import { TYPE_USERS } from "@/app/shared/enums/user";
 
 export function ProductDetail({
   product,
@@ -36,10 +36,8 @@ export function ProductDetail({
       startTransition(async () => {
         try {
           await deleteProductAction(product.id);
-          // La redirección se maneja automáticamente en la server action
         } catch (error) {
-          // Solo manejamos errores de autenticación o conexión
-          if (error && typeof error === 'object' && 'message' in error) {
+          if (error && typeof error === "object" && "message" in error) {
             alert(error.message);
           } else {
             alert("Error al eliminar el producto");
