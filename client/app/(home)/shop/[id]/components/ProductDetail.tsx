@@ -3,16 +3,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { ArrowLeft, CircleCheckBig, CircleX, ShoppingCart, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  CircleCheckBig,
+  CircleX,
+  ShoppingCart,
+  Trash2,
+} from "lucide-react";
 import { Product, useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
 import { useRouter } from "next/navigation";
 import { TYPE_USERS } from "@/app/shared/enums/user";
 
-export function ProductDetail({ 
-  product, 
-  user 
-}: { 
+export function ProductDetail({
+  product,
+  user,
+}: {
   product: Product;
   user?: { type: TYPE_USERS; name: string } | null;
 }) {

@@ -2,7 +2,6 @@
 
 import { config } from "@/lib/config";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function deleteProductAction(productId: string) {
   try {
