@@ -49,7 +49,6 @@ export class ProductController {
         categoryId,
       } = req.body;
 
-      // Validación básica
       if (!name || !price || !brandId || !categoryId) {
         return res.status(400).json({
           message:
