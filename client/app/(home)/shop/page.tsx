@@ -19,7 +19,6 @@ export default async function ShopPage({
     getCategories(),
     getBrands(),
   ]);
-  console.log(products);
 
   return (
     <div className="p-8">

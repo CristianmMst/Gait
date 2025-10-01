@@ -8,7 +8,6 @@ import ButtonSubmit from "@/app/(auth)/components/ButtonSubmit";
 
 export default function AddEmployee() {
   const [state, action, pending] = useActionState(addEmployee, undefined);
-  console.log(state);
 
   return (
     <div className="grid place-content-center h-screen">
@@ -94,13 +93,13 @@ export default function AddEmployee() {
             state?.success
               ? "opacity-100 text-green-700"
               : state?.message
-                ? "opacity-100 text-red-700"
-                : "opacity-0"
+              ? "opacity-100 text-red-700"
+              : "opacity-0"
           }`}
         >
           {state?.success
             ? "Empleado registrado exitosamente"
-            : (state?.message ?? " ")}
+            : state?.message ?? " "}
         </p>
       </form>
     </div>
