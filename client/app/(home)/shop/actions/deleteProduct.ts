@@ -35,10 +35,9 @@ export async function deleteProductAction(productId: string) {
       };
     }
 
-    // Revalidar todas las páginas relacionadas con productos
     revalidatePath("/shop");
     revalidatePath("/shop/[id]", "page");
-    revalidatePath("/", "layout"); // Revalidar layout en caso de que haya productos en caché global
+    revalidatePath("/", "layout");
   } catch (error) {
     return {
       success: false,
@@ -46,6 +45,5 @@ export async function deleteProductAction(productId: string) {
     };
   }
 
-  // Redirigir solo si la eliminación fue exitosa
   redirect("/shop");
 }
