@@ -34,14 +34,9 @@ export function ProductDetail({
   const handleDeleteProduct = () => {
     if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
       startTransition(async () => {
-        try {
-          await deleteProductAction(product.id);
-        } catch (error) {
-          if (error && typeof error === "object" && "message" in error) {
-            alert(error.message);
-          } else {
-            alert("Error al eliminar el producto");
-          }
+        const result = await deleteProductAction(product.id);
+        if (result && !result.success) {
+          alert(result.message);
         }
       });
     }
@@ -114,26 +109,27 @@ export function ProductDetail({
               </p>
             )}
 
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className="flex gap-x-4 items-center self-start mt-4 text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300"
-            >
-              <ShoppingCart size={25} />
-              Agregar al carrito
-            </button>
-
-            {isAdmin && (
+            <div className="flex items-center justify-between mt-4 w-96">
               <button
                 type="button"
-                onClick={handleDeleteProduct}
-                disabled={isPending}
-                className="flex gap-x-4 items-center self-start mt-2 text-lg bg-red-600 px-4 py-2 rounded-md shadow cursor-pointer hover:bg-red-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleAddToCart}
+                className="flex gap-x-4 items-center self-start text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300"
               >
-                <Trash2 size={25} />
-                {isPending ? "Eliminando..." : "Eliminar producto"}
+                <ShoppingCart size={25} />
+                Agregar al carrito
               </button>
-            )}
+
+              {isAdmin && (
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={handleDeleteProduct}
+                  className="flex items-center text-red-500 text-lg rounded-md cursor-pointer"
+                >
+                  <Trash2 size={25} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

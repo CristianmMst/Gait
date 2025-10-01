@@ -6,17 +6,17 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function deleteProductAction(productId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      success: false,
+      message: "No estás autenticado",
+    };
+  }
+
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("accessToken")?.value;
-
-    if (!token) {
-      return {
-        success: false,
-        message: "No estás autenticado",
-      };
-    }
-
     const response = await fetch(`${config.serverUrl}/products/${productId}`, {
       method: "DELETE",
       headers: {
