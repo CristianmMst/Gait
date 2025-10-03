@@ -133,6 +133,10 @@ export class OrderService {
         "distributor",
         "orderProducts",
         "orderProducts.product",
+        "orderProducts.product.brand",
+        "orderProducts.product.category",
+        "payments",
+        "payments.paymentMethod",
       ],
       order: {
         order_date: "DESC",
@@ -148,6 +152,10 @@ export class OrderService {
         "distributor",
         "orderProducts",
         "orderProducts.product",
+        "orderProducts.product.brand",
+        "orderProducts.product.category",
+        "payments",
+        "payments.paymentMethod",
       ],
       order: {
         order_date: "DESC",
@@ -163,6 +171,10 @@ export class OrderService {
         "distributor",
         "orderProducts",
         "orderProducts.product",
+        "orderProducts.product.brand",
+        "orderProducts.product.category",
+        "payments",
+        "payments.paymentMethod",
       ],
       order: {
         order_date: "DESC",
