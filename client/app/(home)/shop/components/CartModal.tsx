@@ -14,6 +14,10 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const canAddMore = (item: (typeof items)[0]) => {
+    return item.amount < item.stock;
+  };
+
   const total = items.reduce((sum, item) => sum + item.price * item.amount, 0);
 
   const handleCreateOrder = async () => {
@@ -85,7 +89,13 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
                     {item.name}
                   </span>
                 </div>
-                <span className="text-slate-300">${item.price}</span>
+                <span className="text-slate-300">
+                  $
+                  {Math.round(item.price).toLocaleString("es-CO", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })}
+                </span>
                 <div className="flex items-center gap-x-3 border rounded-md px-2 py-1 border-zinc-700 hover:border-gray-800">
                   <button
                     onClick={() => removeItem(item.id)}
@@ -98,7 +108,13 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
                   </span>
                   <button
                     onClick={() => addItem(item)}
-                    className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer"
+                    disabled={!canAddMore(item)}
+                    className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={
+                      !canAddMore(item)
+                        ? "Stock máximo alcanzado"
+                        : "Agregar uno más"
+                    }
                   >
                     +
                   </button>
@@ -110,7 +126,11 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
             <div className="flex justify-between items-center mb-4">
               <span className="text-white text-lg font-bold">Total:</span>
               <span className="text-white text-xl font-black">
-                ${total.toFixed(2)}
+                $
+                {Math.round(total).toLocaleString("es-CO", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}
               </span>
             </div>
             {error && (

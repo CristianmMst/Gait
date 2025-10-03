@@ -16,7 +16,6 @@ export const validateSession = async (
   try {
     if (!token) throw new MissingAccessToken();
     const user = authService.verifyToken(token);
-    console.log(user);
 
     if (user.type === TYPE_USERS.EMPLOYEE && !user.distributorId) {
       const employee = await employeeService.findOneByEmail(user.email);

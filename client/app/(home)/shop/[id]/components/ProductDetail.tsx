@@ -28,9 +28,13 @@ export function ProductDetail({
   brands: Brand[];
   categories: Category[];
 }) {
-  const { addItem } = useCart();
+  const { items, addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
+
+  const cartItem = items.find((item) => item.id === product.id);
+  const currentCartQuantity = cartItem?.amount || 0;
+  const availableStock = product.stock - currentCartQuantity;
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -94,8 +98,11 @@ export function ProductDetail({
                   {quantity}
                 </span>
                 <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer"
+                  onClick={() =>
+                    setQuantity((q) => Math.min(availableStock, q + 1))
+                  }
+                  disabled={availableStock <= 0 || quantity >= availableStock}
+                  className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   type="button"
                   aria-label="Sumar cantidad"
                 >
@@ -120,10 +127,15 @@ export function ProductDetail({
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="flex gap-x-4 items-center self-start text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300"
+                disabled={product.stock <= 0 || availableStock <= 0}
+                className="flex gap-x-4 items-center self-start text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600 w-60"
               >
                 <ShoppingCart size={25} />
-                Agregar al carrito
+                {product.stock <= 0
+                  ? "Sin stock"
+                  : availableStock <= 0
+                  ? "Stock en carrito"
+                  : "Agregar al carrito"}
               </button>
 
               {isAdmin && (

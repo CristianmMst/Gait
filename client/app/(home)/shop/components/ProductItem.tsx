@@ -65,7 +65,8 @@ export function ProductItem({ product }: { product: Product }) {
                 e.stopPropagation();
                 addItem(product);
               }}
-              className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer"
+              disabled={product.stock <= 0 || cartItem.amount >= product.stock}
+              className="text-accent text-xl px-2 rounded hover:bg-accent/10 transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               +
             </button>
@@ -77,9 +78,10 @@ export function ProductItem({ product }: { product: Product }) {
               addItem(product);
             }}
             type="button"
-            className="text-lg bg-primary px-3 py-1 rounded-full shadow w-full max-w-[200px] cursor-pointer hover:bg-primary/80 transition-colors duration-300"
+            disabled={product.stock <= 0}
+            className="text-lg bg-primary px-3 py-1 rounded-full shadow w-full max-w-[200px] cursor-pointer hover:bg-primary/80 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600"
           >
-            Agregar al carrito
+            {product.stock <= 0 ? "Sin stock" : "Agregar al carrito"}
           </button>
         )}
       </div>
