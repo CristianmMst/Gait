@@ -1,17 +1,15 @@
 import { getUser } from "@/app/(auth)/actions/verifySession";
 import { ROLE, TYPE_USERS } from "@/app/shared/enums/user";
-import {
-  getOrders,
-  getOrdersByDistributor,
-  getOrdersByEmployee,
-  Order,
-} from "./actions/getOrders";
 import { OrdersTable } from "./components/OrdersTable";
+import { getOrdersByDistributor, Order } from "./actions/getOrders";
 
 export default async function OrdersPage() {
   const user = await getUser();
 
-  let orders: Order[] = await getOrdersByDistributor(user.distributorId);
+  const distributorId =
+    user.type === TYPE_USERS.DISTRIBUTOR ? user.id : user.distributorId;
+
+  let orders: Order[] = await getOrdersByDistributor(distributorId);
 
   const canPay =
     user.type === TYPE_USERS.DISTRIBUTOR ||
