@@ -1,10 +1,11 @@
 import { Router } from "express";
 import AuthRoutes from "./modules/auth/authRoutes";
 import AdminRoutes from "./modules/admin/adminRoutes";
+import BrandRoutes from "./modules/brands/brandRoutes";
+import CategoryRoutes from "./modules/categories/categoryRoutes";
 import ProductRoutes from "./modules/products/productRoutes";
 import DistributorRoutes from "./modules/distributors/distributorRoutes";
-import CategoryRoutes from "./modules/categories/categoryRoutes";
-import BrandRoutes from "./modules/brands/brandRoutes";
+import OrderRoutes from "./modules/orders/orderRoutes";
 
 class AppRouter {
   private static router: Router = Router();
@@ -17,6 +18,7 @@ class AppRouter {
     this.router.use("/distributors", DistributorRoutes.routes);
     this.router.use("/categories", CategoryRoutes.routes);
     this.router.use("/brands", BrandRoutes.routes);
+    this.router.use("/orders", OrderRoutes.routes);
 
     return this.router;
   }
