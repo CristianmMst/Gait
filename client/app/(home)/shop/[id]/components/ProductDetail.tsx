@@ -16,6 +16,7 @@ import { useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
 import { EditProductModal } from "./EditProductModal";
 import { Product, Brand, Category } from "@/lib/types";
+import { formatPrice } from "@/lib/utils";
 
 export function ProductDetail({
   product,
@@ -75,11 +76,7 @@ export function ProductDetail({
           </p>
           <h3 className="text-4xl font-black">{product.name}</h3>
           <p className="text-2xl font-semibold">
-            ${" "}
-            {Math.round(product.price).toLocaleString("es-CO", {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
+            $ {formatPrice(product.price)}
           </p>
           {/* <p>{product.description}</p> */}
           <div className="flex flex-col gap-y-2 mt-4">

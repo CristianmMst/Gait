@@ -3,6 +3,7 @@ import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
 import { useState } from "react";
 import { createOrder } from "../actions/createOrder";
+import { formatPrice } from "@/lib/utils";
 
 interface CartModalProps {
   userId: number;
@@ -90,11 +91,7 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
                   </span>
                 </div>
                 <span className="text-slate-300">
-                  $
-                  {Math.round(item.price).toLocaleString("es-CO", {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0,
-                  })}
+                  ${formatPrice(item.price)}
                 </span>
                 <div className="flex items-center gap-x-3 border rounded-md px-2 py-1 border-zinc-700 hover:border-gray-800">
                   <button
@@ -126,11 +123,7 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
             <div className="flex justify-between items-center mb-4">
               <span className="text-white text-lg font-bold">Total:</span>
               <span className="text-white text-xl font-black">
-                $
-                {Math.round(total).toLocaleString("es-CO", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                })}
+                $ {formatPrice(total)}
               </span>
             </div>
             {error && (
