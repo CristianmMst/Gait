@@ -7,7 +7,6 @@ import { getOrders, Order } from "../../orders/actions/getOrders";
 export default async function AdminOrdersPage() {
   const user = await getUser();
 
-  // Verificar que el usuario sea ADMIN
   if (user.role !== ROLE.ADMIN) {
     redirect("/");
   }

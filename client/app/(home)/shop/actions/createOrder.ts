@@ -65,14 +65,13 @@ export async function createOrder(
       return { success: false, error: "No autenticado" };
     }
 
-    // Generar fechas
     const orderDate = new Date().toISOString();
     const dispatchDate = new Date(
       Date.now() + 24 * 60 * 60 * 1000
-    ).toISOString(); // +1 día
+    ).toISOString();
     const deliveryDate = new Date(
       Date.now() + 3 * 24 * 60 * 60 * 1000
-    ).toISOString(); // +3 días
+    ).toISOString();
 
     const orderData: CreateOrderRequest = {
       employeeId,

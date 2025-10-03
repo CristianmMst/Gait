@@ -145,7 +145,6 @@ export class OrderProductService {
       const subtotalDifference = newSubtotal - oldSubtotal;
       orderProduct.subtotal = newSubtotal;
 
-      // Convertir explícitamente a número para evitar concatenación de strings
       order.total = Number(order.total) + subtotalDifference;
 
       await queryRunner.manager.save(OrderProduct, orderProduct);
@@ -183,7 +182,6 @@ export class OrderProductService {
       await queryRunner.manager.save(Product, product);
 
       const order = orderProduct.order;
-      // Convertir explícitamente a número para evitar concatenación de strings
       order.total = Number(order.total) - Number(orderProduct.subtotal);
       await queryRunner.manager.save(Order, order);
 
