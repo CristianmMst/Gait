@@ -11,7 +11,7 @@ class EmployeeService {
   async findOneByEmail(email: string) {
     return await employeeRepository.findOne({
       where: { email },
-      relations: ["role"],
+      relations: ["role", "distributor"],
     });
   }
 

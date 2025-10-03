@@ -8,9 +8,16 @@ import { Category, Brand } from "@/lib/types";
 interface SearchBarProps {
   categories: Category[];
   brands: Brand[];
+  userId: number;
+  distributorId?: number;
 }
 
-export function SearchBar({ categories, brands }: SearchBarProps) {
+export function SearchBar({
+  categories,
+  brands,
+  userId,
+  distributorId,
+}: SearchBarProps) {
   const { items } = useCart();
   const totalItems = items.reduce((acc, item) => acc + item.amount, 0);
   return (
@@ -48,7 +55,7 @@ export function SearchBar({ categories, brands }: SearchBarProps) {
               </span>
             )}
           </button>
-          <CartModal />
+          <CartModal userId={userId} distributorId={distributorId} />
         </div>
       </div>
     </div>

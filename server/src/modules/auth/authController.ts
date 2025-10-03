@@ -25,7 +25,7 @@ class AuthController {
       if (employee) {
         const isPasswordCorrect = this.authService.comparePassword(
           password,
-          employee.password,
+          employee.password
         );
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
@@ -38,8 +38,9 @@ class AuthController {
             name: employee.name,
             type: TYPE_USERS.EMPLOYEE,
             role: employee.role.name,
+            distributorId: employee.distributor?.id,
           },
-          { expiresIn: "7d" },
+          { expiresIn: "7d" }
         );
         res.cookie("accessToken", token, {
           httpOnly: true,
@@ -54,7 +55,7 @@ class AuthController {
       if (distributor) {
         const isPasswordCorrect = this.authService.comparePassword(
           password,
-          distributor.password,
+          distributor.password
         );
         if (!isPasswordCorrect) {
           throw new InvalidCredentials();
@@ -67,7 +68,7 @@ class AuthController {
             role: "ADMIN",
             type: TYPE_USERS.DISTRIBUTOR,
           },
-          { expiresIn: "7d" },
+          { expiresIn: "7d" }
         );
         res.cookie("accessToken", token, {
           httpOnly: true,

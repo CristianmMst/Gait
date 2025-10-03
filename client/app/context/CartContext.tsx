@@ -6,6 +6,7 @@ interface CartContextType {
   items: CartProduct[];
   addItem: (item: Product) => void;
   removeItem: (itemId: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -58,8 +59,12 @@ export const CartProvider = ({
     );
   };
 
+  const clearCart = () => {
+    setItems([]);
+  };
+
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, clearCart }}>
       {children}
     </CartContext.Provider>
   );
