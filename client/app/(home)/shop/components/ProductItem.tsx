@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import { Product } from "@/lib/types";
+import { formatPrice } from "@/lib/utils";
 
 export function ProductItem({ product }: { product: Product }) {
   const { items, addItem, removeItem } = useCart();
@@ -38,11 +39,7 @@ export function ProductItem({ product }: { product: Product }) {
           {product.description}
         </p> */}
         <p className="font-semibold text-lg rounded shadow mb-2 mt-auto w-fit">
-          ${" "}
-          {Math.round(product.price).toLocaleString("es-CO", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}
+          $ {formatPrice(product.price)}
         </p>
       </Link>
       <div className="flex items-center justify-center mt-auto self-center min-h-[48px] w-full">
