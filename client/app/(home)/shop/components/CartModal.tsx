@@ -123,7 +123,11 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
             <div className="flex justify-between items-center mb-4">
               <span className="text-white text-lg font-bold">Total:</span>
               <span className="text-white text-xl font-black">
-                $ {formatPrice(total)}
+                $
+                {Math.round(total).toLocaleString("es-CO", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}
               </span>
             </div>
             {error && (
