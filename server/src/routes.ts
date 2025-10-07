@@ -6,6 +6,7 @@ import CategoryRoutes from "./modules/categories/categoryRoutes";
 import ProductRoutes from "./modules/products/productRoutes";
 import DistributorRoutes from "./modules/distributors/distributorRoutes";
 import OrderRoutes from "./modules/orders/orderRoutes";
+import MercadoPagoRoutes from "./modules/mercadopago/mercadopagoRoutes";
 
 class AppRouter {
   private static router: Router = Router();
@@ -19,6 +20,7 @@ class AppRouter {
     this.router.use("/categories", CategoryRoutes.routes);
     this.router.use("/brands", BrandRoutes.routes);
     this.router.use("/orders", OrderRoutes.routes);
+    this.router.use("/mercadopago", MercadoPagoRoutes.routes);
 
     return this.router;
   }

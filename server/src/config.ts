@@ -8,4 +8,5 @@ export const {
   DB_PORT = 3306,
   JWT_SECRET,
   CLIENT_URL,
+  MERCADOPAGO_ACCESS_TOKEN,
 } = process.env;

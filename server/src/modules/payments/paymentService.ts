@@ -148,6 +148,10 @@ export class PaymentService {
     return this.findById(id) as Promise<Payment>;
   }
 
+  async updateStatus(id: number, status: PaymentStatus): Promise<Payment> {
+    return this.update(id, { status });
+  }
+
   async delete(id: number): Promise<boolean> {
     const result = await this.paymentRepository.delete(id);
     return result.affected !== 0;
