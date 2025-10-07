@@ -28,7 +28,7 @@ export class ProductController {
       const { id } = req.params;
       const product = await this.productService.findById(Number(id));
       if (!product) {
-        res.status(404).json({ message: "Producto no encontrado" });
+        throw new Error("Producto no encontrado");
       }
       res.json(product);
     } catch (error) {
@@ -50,10 +50,9 @@ export class ProductController {
       } = req.body;
 
       if (!name || !price || !brandId || !categoryId) {
-        return res.status(400).json({
-          message:
-            "Los campos name, price, brandId y categoryId son requeridos",
-        });
+        throw new Error(
+          "Los campos name, price, brandId y categoryId son requeridos"
+        );
       }
 
       const brand = new Brand();
@@ -89,26 +88,20 @@ export class ProductController {
       const { id } = req.params;
 
       if (!id || isNaN(Number(id))) {
-        return res.status(400).json({
-          message: "ID de producto inválido",
-        });
+        throw new Error("ID de producto inválido");
       }
 
       const productId = Number(id);
 
       const existingProduct = await this.productService.findById(productId);
       if (!existingProduct) {
-        return res.status(404).json({
-          message: "Producto no encontrado",
-        });
+        throw new Error("Producto no encontrado");
       }
 
       const deleted = await this.productService.delete(productId);
 
       if (!deleted) {
-        return res.status(500).json({
-          message: "Error al eliminar el producto",
-        });
+        throw new Error("Error al eliminar el producto");
       }
 
       res.status(200).json({
@@ -134,18 +127,14 @@ export class ProductController {
       } = req.body;
 
       if (!id || isNaN(Number(id))) {
-        return res.status(400).json({
-          message: "ID de producto inválido",
-        });
+        throw new Error("ID de producto inválido");
       }
 
       const productId = Number(id);
 
       const existingProduct = await this.productService.findById(productId);
       if (!existingProduct) {
-        return res.status(404).json({
-          message: "Producto no encontrado",
-        });
+        throw new Error("Producto no encontrado");
       }
 
       const updateData: any = {};
