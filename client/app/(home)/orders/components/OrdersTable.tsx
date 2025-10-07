@@ -99,7 +99,7 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
                     {order.employee.name} {order.employee.lastname}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-white">
-                    {formatPrice(Number(order.total))}
+                    ${formatPrice(Number(order.total))}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {order.payments && order.payments.length > 0
@@ -122,7 +122,7 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
                         order.payments[0].status === "PENDING" && (
                           <Link
                             href={`/orders/${order.id}/payment`}
-                            className="flex items-center gap-x-2 bg-green-400 text-black font-semibold transition-colors p-1 rounded-md"
+                            className="flex items-center gap-x-2 bg-green-400 text-green-950 font-semibold transition-colors p-1 rounded-md"
                           >
                             <CreditCard />
                             Pagar
