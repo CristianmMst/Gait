@@ -10,6 +10,7 @@ interface SearchBarProps {
   brands: Brand[];
   userId: number;
   distributorId?: number;
+  userType: string;
 }
 
 export function SearchBar({
@@ -17,6 +18,7 @@ export function SearchBar({
   brands,
   userId,
   distributorId,
+  userType,
 }: SearchBarProps) {
   const { items } = useCart();
   const totalItems = items.reduce((acc, item) => acc + item.amount, 0);
@@ -55,7 +57,11 @@ export function SearchBar({
               </span>
             )}
           </button>
-          <CartModal userId={userId} distributorId={distributorId} />
+          <CartModal
+            userId={userId}
+            distributorId={distributorId}
+            userType={userType}
+          />
         </div>
       </div>
     </div>

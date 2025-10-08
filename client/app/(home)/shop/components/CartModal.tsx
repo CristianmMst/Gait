@@ -1,19 +1,19 @@
 "use client";
-import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
 import { useState } from "react";
-import { createOrder } from "../actions/createOrder";
 import { formatPrice } from "@/lib/utils";
+import { useCart } from "@/app/context/CartContext";
+import { createOrder } from "../actions/createOrder";
 
 interface CartModalProps {
   userId: number;
   distributorId?: number;
+  userType: string;
 }
 
-export function CartModal({ userId, distributorId }: CartModalProps) {
+export function CartModal({ userId, distributorId, userType }: CartModalProps) {
   const { items, addItem, removeItem, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const canAddMore = (item: (typeof items)[0]) => {
     return item.amount < item.stock;
@@ -22,13 +22,7 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
   const total = items.reduce((sum, item) => sum + item.price * item.amount, 0);
 
   const handleCreateOrder = async () => {
-    if (items.length === 0) {
-      setError("El carrito está vacío");
-      return;
-    }
-
     setLoading(true);
-    setError(null);
 
     try {
       const products = items.map((item) => ({
@@ -50,11 +44,10 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
 
         window.location.reload();
       } else {
-        setError(result.error || "Error al crear la orden");
+        console.error("Error al crear la orden:", result.error);
       }
     } catch (err) {
-      setError("Error inesperado al crear la orden");
-      console.error(err);
+      console.error("Error inesperado al crear la orden:", err);
     } finally {
       setLoading(false);
     }
@@ -126,17 +119,21 @@ export function CartModal({ userId, distributorId }: CartModalProps) {
                 $ {formatPrice(total)}
               </span>
             </div>
-            {error && (
-              <div className="mb-3 p-2 bg-red-900/30 border border-red-800 rounded-md text-red-200 text-sm">
-                {error}
-              </div>
-            )}
             <button
               onClick={handleCreateOrder}
-              disabled={loading || items.length === 0}
+              disabled={loading || items.length === 0 || userType === "ADMIN"}
               className="w-full bg-primary text-white font-bold py-3 px-4 rounded-md hover:bg-primary/90 transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              title={
+                userType === "ADMIN"
+                  ? "Los usuarios ADMIN no pueden crear órdenes"
+                  : undefined
+              }
             >
-              {loading ? "Creando orden..." : "Crear Orden"}
+              {loading
+                ? "Creando orden..."
+                : userType === "ADMIN"
+                ? "No autorizado"
+                : "Crear Orden"}
             </button>
           </div>
         </>

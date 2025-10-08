@@ -1,17 +1,31 @@
 "use client";
 
 import { Order } from "../actions/getOrders";
-import { formatPrice } from "@/lib/utils/formatPrice";
-import Link from "next/link";
-import { OrderDetailModal } from "./OrderDetailModal";
 import { CreditCard, Eye } from "lucide-react";
+import { formatPrice } from "@/lib/utils/formatPrice";
+import { OrderDetailModal } from "./OrderDetailModal";
+import {
+  PaymentState,
+  createPaymentPreference,
+} from "../actions/createPayment";
+import { useActionState, useEffect, useRef } from "react";
 
 interface OrdersTableProps {
   orders: Order[];
   canPay: boolean;
 }
 
+const initialState: PaymentState = {
+  success: false,
+};
+
 export function OrdersTable({ orders, canPay }: OrdersTableProps) {
+  const [state, formAction, isPending] = useActionState(
+    createPaymentPreference,
+    initialState
+  );
+  const currentOrderIdRef = useRef<number | null>(null);
+
   const getStatusBadge = (status: "PENDING" | "COMPLETED" | "FAILED") => {
     const styles = {
       PENDING: "bg-yellow-500 text-yellow-950",
@@ -41,6 +55,17 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
       day: "numeric",
     });
   };
+
+  useEffect(() => {
+    if (state.success && state.paymentUrl) {
+      // Abrir el link de pago en una nueva ventana
+      window.open(state.paymentUrl, "_blank", "noopener,noreferrer");
+      currentOrderIdRef.current = null;
+    } else if (state.error) {
+      console.error("Error al crear preferencia:", state.error);
+      currentOrderIdRef.current = null;
+    }
+  }, [state]);
 
   if (orders.length === 0) {
     return (
@@ -119,14 +144,40 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
                       {canPay &&
                         order.payments &&
                         order.payments.length > 0 &&
-                        order.payments[0].status === "PENDING" && (
-                          <Link
-                            href={`/orders/${order.id}/payment`}
-                            className="flex items-center gap-x-2 bg-green-400 text-green-950 font-semibold transition-colors p-1 rounded-md"
+                        (order.payments[0].status === "PENDING" ||
+                          order.payments[0].status === "FAILED") && (
+                          <form
+                            action={formAction}
+                            onSubmit={() => {
+                              currentOrderIdRef.current = order.id;
+                            }}
                           >
-                            <CreditCard />
-                            Pagar
-                          </Link>
+                            <input
+                              type="hidden"
+                              name="orderId"
+                              value={order.id}
+                            />
+                            <button
+                              type="submit"
+                              disabled={
+                                isPending &&
+                                currentOrderIdRef.current === order.id
+                              }
+                              className={`flex items-center gap-x-2 font-semibold transition-colors p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                                order.payments[0].status === "FAILED"
+                                  ? "bg-orange-400 text-orange-950 hover:bg-orange-500"
+                                  : "bg-green-400 text-green-950 hover:bg-green-500"
+                              }`}
+                            >
+                              <CreditCard />
+                              {isPending &&
+                              currentOrderIdRef.current === order.id
+                                ? "Procesando..."
+                                : order.payments[0].status === "FAILED"
+                                ? "Reintentar"
+                                : "Pagar"}
+                            </button>
+                          </form>
                         )}
                     </div>
                   </td>

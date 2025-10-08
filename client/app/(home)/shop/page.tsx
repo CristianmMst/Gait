@@ -33,6 +33,7 @@ export default async function ShopPage({
         brands={brands}
         userId={user.id}
         distributorId={user.distributorId}
+        userType={user.type}
       />
       <div className="grid grid-cols-5 gap-6 mt-4">
         {products.map((product) => (

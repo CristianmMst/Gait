@@ -3,7 +3,11 @@
 import { Order } from "../actions/getOrders";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import Link from "next/link";
-import { ReactElement } from "react";
+import { ReactElement, useActionState, useEffect, useRef } from "react";
+import {
+  createPaymentPreference,
+  PaymentState,
+} from "../actions/createPayment";
 
 interface OrderDetailModalProps {
   order: Order;
@@ -12,12 +16,22 @@ interface OrderDetailModalProps {
   formatDate: (dateString: string) => string;
 }
 
+const initialState: PaymentState = {
+  success: false,
+};
+
 export function OrderDetailModal({
   order,
   canPay,
   getStatusBadge,
   formatDate,
 }: OrderDetailModalProps) {
+  const [state, formAction, isPending] = useActionState(
+    createPaymentPreference,
+    initialState
+  );
+  const formRef = useRef<HTMLFormElement>(null);
+
   const closeModal = () => {
     const popover = document.getElementById(
       `order-modal-${order.id}`
@@ -26,6 +40,16 @@ export function OrderDetailModal({
       popover.hidePopover();
     }
   };
+
+  useEffect(() => {
+    if (state.success && state.paymentUrl) {
+      // Abrir el link de pago en una nueva ventana
+      window.open(state.paymentUrl, "_blank", "noopener,noreferrer");
+      closeModal();
+    } else if (state.error) {
+      console.error("Error al crear preferencia:", state.error);
+    }
+  }, [state]);
 
   return (
     <div
@@ -151,15 +175,28 @@ export function OrderDetailModal({
                 </div>
                 <div className="flex items-center gap-x-6">
                   {getStatusBadge(order.payments[0].status)}
-                  {canPay && order.payments[0].status === "PENDING" && (
-                    <Link
-                      href={`/orders/${order.id}/payment`}
-                      className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-md"
-                      onClick={closeModal}
-                    >
-                      Proceder al Pago
-                    </Link>
-                  )}
+                  {canPay &&
+                    (order.payments[0].status === "PENDING" ||
+                      order.payments[0].status === "FAILED") && (
+                      <form ref={formRef} action={formAction}>
+                        <input type="hidden" name="orderId" value={order.id} />
+                        <button
+                          type="submit"
+                          disabled={isPending}
+                          className={`px-6 py-2 rounded-lg font-semibold transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                            order.payments[0].status === "FAILED"
+                              ? "bg-orange-600 text-white hover:bg-orange-700"
+                              : "bg-green-600 text-white hover:bg-green-700"
+                          }`}
+                        >
+                          {isPending
+                            ? "Procesando..."
+                            : order.payments[0].status === "FAILED"
+                            ? "Reintentar Pago"
+                            : "Proceder al Pago"}
+                        </button>
+                      </form>
+                    )}
                 </div>
               </div>
             </div>

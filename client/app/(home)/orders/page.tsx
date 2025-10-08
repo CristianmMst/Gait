@@ -12,9 +12,9 @@ export default async function OrdersPage() {
   let orders: Order[] = await getOrdersByDistributor(distributorId);
 
   const canPay =
-    user.type === TYPE_USERS.DISTRIBUTOR ||
-    user.role === ROLE.ADMIN ||
-    (user.type == TYPE_USERS.EMPLOYEE && user.role !== ROLE.ADMIN);
+    user.type !== TYPE_USERS.ADMIN &&
+    (user.type === TYPE_USERS.DISTRIBUTOR ||
+      (user.type === TYPE_USERS.EMPLOYEE && user.role === ROLE.ADMIN));
 
   return (
     <div className="container mx-auto px-4 py-8">
