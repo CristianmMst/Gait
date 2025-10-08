@@ -68,7 +68,7 @@ export const routes: Route[] = [
     path: "/distributor/add_employee",
     icon: <UserPlus />,
     roles: [ROLE.ADMIN],
-    types: [TYPE_USERS.DISTRIBUTOR],
+    types: [TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
   },
   {
     name: "Crear producto",

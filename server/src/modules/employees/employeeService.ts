@@ -5,7 +5,10 @@ const employeeRepository = AppDataSource.getRepository(Employee);
 
 class EmployeeService {
   async findOneById(id: number) {
-    return await employeeRepository.findOneBy({ id });
+    return await employeeRepository.findOne({
+      where: { id },
+      relations: ["role", "distributor"],
+    });
   }
 
   async findOneByEmail(email: string) {
