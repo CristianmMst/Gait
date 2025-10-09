@@ -1,9 +1,9 @@
-import MercadoPagoConfig, { Preference, Payment } from "mercadopago";
-import { MERCADOPAGO_ACCESS_TOKEN, CLIENT_URL } from "@/config";
 import { PreferenceResponse } from "./types";
+import { MERCADOPAGO_ACCESS_TOKEN } from "@/config";
 import { OrderService } from "../orders/orderService";
-import { PaymentService } from "../payments/paymentService";
 import { PaymentStatus } from "../payments/paymentModel";
+import { PaymentService } from "../payments/paymentService";
+import { MercadoPagoConfig, Preference, Payment } from "mercadopago";
 
 export class MercadoPagoService {
   private client: MercadoPagoConfig;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "exports": "./dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "pkgroll",
     "dev": "tsx watch src/index.ts",

@@ -1,6 +1,6 @@
 import { JWT_SECRET } from "@/config";
 import { compareSync, hashSync } from "bcrypt";
-import { JwtPayload, sign, SignOptions, verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 class AuthService {
   hashPassword(password: string) {
@@ -11,12 +11,12 @@ class AuthService {
     return compareSync(password, hash);
   }
 
-  createToken(payload: JwtPayload, options: SignOptions) {
-    return sign(payload, `${JWT_SECRET}`, options);
+  createToken(payload: jwt.JwtPayload, options: jwt.SignOptions) {
+    return jwt.sign(payload, `${JWT_SECRET}`, options);
   }
 
   verifyToken(token: string) {
-    return verify(token, `${JWT_SECRET}`) as JwtPayload;
+    return jwt.verify(token, `${JWT_SECRET}`) as jwt.JwtPayload;
   }
 }
 
