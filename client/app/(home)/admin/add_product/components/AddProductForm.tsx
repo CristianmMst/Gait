@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Upload, X, Save } from "lucide-react";
+import Image from "next/image";
 import { Card } from "./Card";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
@@ -88,7 +89,7 @@ export function AddProductForm({
           categoryId: (formData.get("categoryId") as string) || "",
         });
       }
-    } catch (error) {
+    } catch {
       setState({
         message: "Error de conexión. Intenta nuevamente.",
       });
@@ -235,9 +236,11 @@ export function AddProductForm({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
               {images.map((image, index) => (
                 <div key={index} className="relative group">
-                  <img
+                  <Image
                     src={image || "/placeholder.svg"}
                     alt={`Producto ${index + 1}`}
+                    width={128}
+                    height={128}
                     className="w-full h-32 object-cover rounded-lg border"
                   />
                   <button

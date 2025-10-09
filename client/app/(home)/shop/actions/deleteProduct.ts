@@ -38,7 +38,7 @@ export async function deleteProductAction(productId: number) {
     revalidatePath("/shop");
     revalidatePath("/shop/[id]", "page");
     revalidatePath("/", "layout");
-  } catch (error) {
+  } catch {
     return {
       success: false,
       message: "Error de conexión. Intenta nuevamente.",

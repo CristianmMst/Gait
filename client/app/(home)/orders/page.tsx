@@ -9,7 +9,7 @@ export default async function OrdersPage() {
   const distributorId =
     user.type === TYPE_USERS.DISTRIBUTOR ? user.id : user.distributorId;
 
-  let orders: Order[] = await getOrdersByDistributor(distributorId);
+  const orders: Order[] = await getOrdersByDistributor(distributorId);
 
   const canPay =
     user.type !== TYPE_USERS.ADMIN &&

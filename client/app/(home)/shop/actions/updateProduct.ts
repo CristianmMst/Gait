@@ -81,7 +81,7 @@ export async function updateProductAction(
       success: true,
       message: "Producto actualizado exitosamente",
     };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       message: "Error de conexión. Intenta nuevamente.",

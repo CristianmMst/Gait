@@ -2,8 +2,14 @@
 
 import { Order } from "../actions/getOrders";
 import { formatPrice } from "@/lib/utils/formatPrice";
-import Link from "next/link";
-import { ReactElement, useActionState, useEffect, useRef } from "react";
+import Image from "next/image";
+import {
+  ReactElement,
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import {
   createPaymentPreference,
   PaymentState,
@@ -32,14 +38,14 @@ export function OrderDetailModal({
   );
   const formRef = useRef<HTMLFormElement>(null);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     const popover = document.getElementById(
       `order-modal-${order.id}`
     ) as HTMLElement & { hidePopover?: () => void };
     if (popover && popover.hidePopover) {
       popover.hidePopover();
     }
-  };
+  }, [order.id]);
 
   useEffect(() => {
     if (state.success && state.paymentUrl) {
@@ -49,7 +55,7 @@ export function OrderDetailModal({
     } else if (state.error) {
       console.error("Error al crear preferencia:", state.error);
     }
-  }, [state]);
+  }, [state, closeModal]);
 
   return (
     <div
@@ -119,9 +125,11 @@ export function OrderDetailModal({
                   <tr key={item.id} className="hover:bg-zinc-900">
                     <td className="px-4 py-3 text-sm font-medium">
                       <div className="flex items-center gap-3">
-                        <img
+                        <Image
                           src={item.product.image}
                           alt={item.product.name}
+                          width={40}
+                          height={40}
                           className="w-10 h-10 object-cover rounded"
                         />
                         <span>{item.product.name}</span>

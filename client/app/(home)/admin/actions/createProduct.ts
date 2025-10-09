@@ -65,7 +65,7 @@ export async function createProductAction(
       success: true,
       message: "Producto creado exitosamente",
     };
-  } catch (error) {
+  } catch {
     return {
       message: "Error de conexión. Intenta nuevamente.",
     };

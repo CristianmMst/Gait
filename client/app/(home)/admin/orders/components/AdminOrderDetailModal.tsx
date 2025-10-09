@@ -2,6 +2,7 @@
 
 import { Order } from "../../../orders/actions/getOrders";
 import { formatPrice } from "@/lib/utils/formatPrice";
+import Image from "next/image";
 import { ReactElement } from "react";
 
 interface AdminOrderDetailModalProps {
@@ -92,9 +93,11 @@ export function AdminOrderDetailModal({
                   <tr key={item.id} className="hover:bg-zinc-900">
                     <td className="px-4 py-3 text-sm font-medium">
                       <div className="flex items-center gap-3">
-                        <img
+                        <Image
                           src={item.product.image}
                           alt={item.product.name}
+                          width={40}
+                          height={40}
                           className="w-10 h-10 object-cover rounded"
                         />
                         <span>{item.product.name}</span>
