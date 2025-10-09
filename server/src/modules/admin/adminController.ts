@@ -16,7 +16,7 @@ export class AdminController {
       if (!admin) throw new UserNotFound();
       const isPasswordCorrect = this.authService.comparePassword(
         password,
-        admin.password,
+        admin.password
       );
       if (!isPasswordCorrect) throw new InvalidCredentials();
       const token = this.authService.createToken(
@@ -27,11 +27,14 @@ export class AdminController {
           type: TYPE_USERS.ADMIN,
           role: "ADMIN",
         },
-        { expiresIn: "2d" },
+        { expiresIn: "2d" }
       );
       res.cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
         maxAge: 1000 * 60 * 60 * 24 * 7,
+        path: "/",
       });
       res.status(200).send({ token, type: TYPE_USERS.ADMIN });
     } catch (error) {
@@ -45,7 +48,7 @@ export class AdminController {
         {
           invite: true,
         },
-        { expiresIn: "15m" },
+        { expiresIn: "15m" }
       );
       res.status(200).send({ token });
     } catch (error) {

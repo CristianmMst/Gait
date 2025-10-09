@@ -17,12 +17,17 @@ export async function verifySession() {
   const cookieStore = await cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  const headers: HeadersInit = token ? { Authorization: token } : {};
+  if (!token) {
+    return {};
+  }
+
+  const headers: HeadersInit = { Authorization: token };
 
   const response = await fetch(`${config.serverUrl}/auth/verify`, {
     method: "GET",
     headers,
     credentials: "include",
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -35,7 +40,7 @@ export async function verifySession() {
 
 export const getUser = cache(async () => {
   const session = await verifySession();
-  if (!session) redirect("/login");
+  if (!session || !session.id) redirect("/login");
 
   const user = session;
   return user;
