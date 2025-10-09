@@ -1,6 +1,6 @@
-import { Brand } from "../brands/brandModel";
-import { Category } from "../categories/categoryModel";
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import type { Brand } from "../brands/brandModel";
+import type { Category } from "../categories/categoryModel";
 
 @Entity("products")
 export class Product {
@@ -31,11 +31,9 @@ export class Product {
   @Column({ type: "int", default: 0, unsigned: true })
   stock: number;
 
-  @ManyToOne(() => Brand, (brand) => brand.products, { onDelete: "CASCADE" })
+  @ManyToOne("Brand", "products", { onDelete: "CASCADE" })
   brand: Brand;
 
-  @ManyToOne(() => Category, (category) => category.products, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne("Category", "products", { onDelete: "CASCADE" })
   category: Category;
 }

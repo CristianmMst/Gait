@@ -1,5 +1,5 @@
-import { Payment } from "../payments/paymentModel";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import type { Payment } from "../payments/paymentModel";
 
 @Entity("payment_methods")
 export class PaymentMethod {
@@ -12,6 +12,6 @@ export class PaymentMethod {
   @Column({ type: "text", nullable: false })
   description: string;
 
-  @OneToMany(() => Payment, (payment) => payment.paymentMethod)
+  @OneToMany("Payment", "paymentMethod")
   payments: Payment[];
 }

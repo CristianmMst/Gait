@@ -6,7 +6,7 @@ import {
   JoinColumn,
   Check,
 } from "typeorm";
-import { Order } from "../orders/orderModel";
+import type { Order } from "../orders/orderModel";
 import { Product } from "../products/productModel";
 
 @Entity("order_products")
@@ -22,9 +22,7 @@ export class OrderProduct {
   @Column({ type: "decimal", precision: 10, scale: 2, nullable: false })
   subtotal: number;
 
-  @ManyToOne(() => Order, (order) => order.orderProducts, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne("Order", "orderProducts", { onDelete: "CASCADE" })
   @JoinColumn({ name: "id_order" })
   order: Order;
 

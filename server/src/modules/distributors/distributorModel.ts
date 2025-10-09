@@ -1,5 +1,5 @@
-import { Employee } from "../employees/employeeModel";
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import type { Employee } from "../employees/employeeModel";
 
 @Entity("distributors")
 export class Distributor {
@@ -18,6 +18,6 @@ export class Distributor {
   @Column({ type: "varchar", length: 45 })
   location: string;
 
-  @OneToMany(() => Employee, (employee) => employee.distributor)
+  @OneToMany("Employee", "distributor")
   employees: Employee[];
 }

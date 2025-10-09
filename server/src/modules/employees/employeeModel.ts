@@ -1,6 +1,6 @@
 import { Role } from "../roles/roleModel";
-import { Distributor } from "../distributors/distributorModel";
 import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from "typeorm";
+import type { Distributor } from "../distributors/distributorModel";
 
 @Entity("employees")
 export class Employee {
@@ -29,6 +29,6 @@ export class Employee {
   @JoinColumn()
   role: Role;
 
-  @ManyToOne(() => Distributor, (distributor) => distributor.employees)
+  @ManyToOne("Distributor", "employees")
   distributor: Distributor;
 }

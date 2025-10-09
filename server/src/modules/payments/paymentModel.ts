@@ -6,8 +6,8 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Order } from "../orders/orderModel";
-import { PaymentMethod } from "../payment_methods/paymentMethodModel";
+import type { Order } from "../orders/orderModel";
+import type { PaymentMethod } from "../payment_methods/paymentMethodModel";
 
 export enum PaymentStatus {
   PENDING = "PENDING",
@@ -31,11 +31,11 @@ export class Payment {
   })
   status: PaymentStatus;
 
-  @ManyToOne(() => Order, (order) => order.payments, { onDelete: "CASCADE" })
+  @ManyToOne("Order", "payments", { onDelete: "CASCADE" })
   @JoinColumn({ name: "id_order" })
   order: Order;
 
-  @ManyToOne(() => PaymentMethod, (paymentMethod) => paymentMethod.payments, {
+  @ManyToOne("PaymentMethod", "payments", {
     onDelete: "CASCADE",
     nullable: true,
   })

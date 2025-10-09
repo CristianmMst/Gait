@@ -8,8 +8,8 @@ import {
 } from "typeorm";
 import { Employee } from "../employees/employeeModel";
 import { Distributor } from "../distributors/distributorModel";
-import { OrderProduct } from "../order_products/orderProductModel";
-import { Payment } from "../payments/paymentModel";
+import type { OrderProduct } from "../order_products/orderProductModel";
+import type { Payment } from "../payments/paymentModel";
 
 @Entity("orders")
 export class Order {
@@ -36,9 +36,9 @@ export class Order {
   @JoinColumn({ name: "id_distributor" })
   distributor: Distributor;
 
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
+  @OneToMany("OrderProduct", "order")
   orderProducts: OrderProduct[];
 
-  @OneToMany(() => Payment, (payment) => payment.order)
+  @OneToMany("Payment", "order")
   payments: Payment[];
 }
