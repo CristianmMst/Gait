@@ -5,3 +5,5 @@ import AppRouter from "./routes";
 const app = new App({ port: 4000, routes: AppRouter.routes });
 
 app.start();
+
+export default app.app;

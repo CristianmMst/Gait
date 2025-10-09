@@ -12,7 +12,7 @@ interface AppOptions {
 
 class App {
   private port: number;
-  private readonly app: Application = express();
+  public app: Application = express();
 
   constructor({ port, routes }: AppOptions) {
     this.port = port || 3000;
@@ -20,7 +20,7 @@ class App {
       cors({
         credentials: true,
         origin: CLIENT_URL,
-      }),
+      })
     );
     this.app.use(cookieParser());
     this.app.use(express.json());
