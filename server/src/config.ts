@@ -1,4 +1,8 @@
-process.loadEnvFile();
+try {
+  process.loadEnvFile();
+} catch {
+  import("dotenv").then((dotenv) => dotenv.config());
+}
 
 export const {
   DB_NAME,
