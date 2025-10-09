@@ -19,9 +19,9 @@ export const AppDataSource = new DataSource({
   username: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
-  synchronize: false,
+  synchronize: true,
   charset: "utf8mb4",
-  logging: true,
+  logging: false,
   entities: [
     Admin,
     Distributor,
