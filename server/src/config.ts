@@ -14,4 +14,5 @@ export const {
   JWT_SECRET,
   CLIENT_URL,
   MERCADOPAGO_ACCESS_TOKEN,
+  NODE_ENV = "development",
 } = process.env;

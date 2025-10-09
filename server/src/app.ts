@@ -16,10 +16,15 @@ class App {
 
   constructor({ port, routes }: AppOptions) {
     this.port = port || 3000;
+
+    this.app.set("trust proxy", 1);
+
     this.app.use(
       cors({
         credentials: true,
         origin: CLIENT_URL,
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
       })
     );
     this.app.use(cookieParser());

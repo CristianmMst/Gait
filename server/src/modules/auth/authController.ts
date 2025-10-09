@@ -7,11 +7,23 @@ import { TYPE_USERS } from "./enums";
 import { UserNotFound } from "../shared/errors/UserNotFound";
 import { InvalidCredentials } from "../shared/errors/InvalidCredentials";
 import { UserAlreadyExists } from "../shared/errors/UserAlreadyExists";
+import { NODE_ENV } from "../../config";
 
 class AuthController {
   private readonly authService = new AuthService();
   private readonly employeeService = new EmployeeService();
   private readonly distributorService = new DistributorService();
+
+  private getCookieOptions() {
+    const isProduction = NODE_ENV === "production";
+    return {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none" as const,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      path: "/",
+    };
+  }
 
   login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -42,12 +54,7 @@ class AuthController {
           },
           { expiresIn: "7d" }
         );
-        res.cookie("accessToken", token, {
-          httpOnly: true,
-          sameSite: "none",
-          secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-        });
+        res.cookie("accessToken", token, this.getCookieOptions());
         res
           .status(200)
           .send({ token, type: TYPE_USERS.EMPLOYEE, role: employee.role });
@@ -70,12 +77,7 @@ class AuthController {
           },
           { expiresIn: "7d" }
         );
-        res.cookie("accessToken", token, {
-          httpOnly: true,
-          sameSite: "none",
-          secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-        });
+        res.cookie("accessToken", token, this.getCookieOptions());
         res.status(200).send({ token, type: TYPE_USERS.DISTRIBUTOR });
       }
     } catch (error) {
