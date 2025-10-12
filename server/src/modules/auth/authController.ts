@@ -14,17 +14,6 @@ class AuthController {
   private readonly employeeService = new EmployeeService();
   private readonly distributorService = new DistributorService();
 
-  private getCookieOptions() {
-    const isProduction = NODE_ENV === "production";
-    return {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none" as const,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      path: "/",
-    };
-  }
-
   login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     try {
@@ -54,7 +43,6 @@ class AuthController {
           },
           { expiresIn: "7d" }
         );
-        res.cookie("accessToken", token, this.getCookieOptions());
         res
           .status(200)
           .send({ token, type: TYPE_USERS.EMPLOYEE, role: employee.role });
@@ -77,7 +65,6 @@ class AuthController {
           },
           { expiresIn: "7d" }
         );
-        res.cookie("accessToken", token, this.getCookieOptions());
         res.status(200).send({ token, type: TYPE_USERS.DISTRIBUTOR });
       }
     } catch (error) {

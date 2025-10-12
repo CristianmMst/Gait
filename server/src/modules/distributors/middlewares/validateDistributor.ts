@@ -17,7 +17,7 @@ export const validateDistributor = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const token = req.cookies.accessToken;
+    const token = req.headers.authorization;
 
     if (!token) {
       throw new MissingAccessToken();

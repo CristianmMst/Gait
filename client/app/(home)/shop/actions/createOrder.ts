@@ -88,7 +88,6 @@ export async function createOrder(
         "Content-Type": "application/json",
         Authorization: token,
       },
-      credentials: "include",
       body: JSON.stringify(orderData),
     });
 

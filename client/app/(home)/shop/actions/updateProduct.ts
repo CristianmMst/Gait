@@ -58,9 +58,8 @@ export async function updateProductAction(
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `accessToken=${token}`,
+        Authorization: token,
       },
-      credentials: "include",
       body: JSON.stringify(productData),
     });
 

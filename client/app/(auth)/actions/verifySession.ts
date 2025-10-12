@@ -26,7 +26,6 @@ export async function verifySession() {
   const response = await fetch(`${config.serverUrl}/auth/verify`, {
     method: "GET",
     headers,
-    credentials: "include",
     cache: "no-store",
   });
 

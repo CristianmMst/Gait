@@ -1,6 +1,8 @@
+"use server";
 import { config } from "@/lib/config";
 import { FormState } from "@/lib/definitions";
 import { AddProductSchema } from "@/lib/schemas/AddProductSchema";
+import { cookies } from "next/headers";
 
 export async function createProductAction(
   _state: FormState,
@@ -23,6 +25,15 @@ export async function createProductAction(
     };
   }
 
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      message: "No estás autenticado",
+    };
+  }
+
   const {
     name,
     price,
@@ -39,6 +50,7 @@ export async function createProductAction(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
       body: JSON.stringify({
         name,
@@ -50,7 +62,6 @@ export async function createProductAction(
         brandId,
         categoryId,
       }),
-      credentials: "include",
     });
 
     const data = await response.json();

@@ -66,7 +66,6 @@ export async function getOrders(): Promise<Order[]> {
     const response = await fetch(`${config.serverUrl}/orders`, {
       method: "GET",
       headers,
-      credentials: "include",
       cache: "no-store",
     });
 
@@ -98,7 +97,6 @@ export async function getOrdersByDistributor(
       {
         method: "GET",
         headers,
-        credentials: "include",
         cache: "no-store",
       }
     );
@@ -131,7 +129,6 @@ export async function getOrdersByEmployee(
       {
         method: "GET",
         headers,
-        credentials: "include",
         cache: "no-store",
       }
     );

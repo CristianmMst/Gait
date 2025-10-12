@@ -21,9 +21,8 @@ export async function deleteProductAction(productId: number) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `accessToken=${token}`,
+        Authorization: token,
       },
-      credentials: "include",
     });
 
     const data = await response.json();

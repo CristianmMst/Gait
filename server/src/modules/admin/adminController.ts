@@ -29,13 +29,6 @@ export class AdminController {
         },
         { expiresIn: "2d" }
       );
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        path: "/",
-      });
       res.status(200).send({ token, type: TYPE_USERS.ADMIN });
     } catch (error) {
       next(error);

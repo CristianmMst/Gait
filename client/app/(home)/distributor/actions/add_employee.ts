@@ -1,9 +1,20 @@
+"use server";
+
+import { cookies } from "next/headers";
 import { config } from "@/lib/config";
 import { ROLE } from "@/app/shared/enums/user";
 import { FormState } from "@/lib/definitions";
 import { AddEmployeeSchema } from "@/lib/schemas/AddEmployeeSchema";
 
 export const addEmployee = async (_state: FormState, formData: FormData) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      message: "No estás autenticado",
+    };
+  }
   const validatedFields = AddEmployeeSchema.safeParse({
     id: formData.get("id"),
     name: formData.get("name"),
@@ -31,8 +42,8 @@ export const addEmployee = async (_state: FormState, formData: FormData) => {
     `${config.serverUrl}/distributors/signup_employee`,
     {
       method: "POST",
-      credentials: "include",
       headers: {
+        Authorization: token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

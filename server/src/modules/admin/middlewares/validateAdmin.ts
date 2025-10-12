@@ -12,7 +12,7 @@ export const validateAdmin = async (
   _res: Response,
   next: NextFunction,
 ) => {
-  const token = req.cookies.accessToken;
+  const token = req.headers.authorization;
 
   try {
     if (!token) throw new MissingAccessToken();

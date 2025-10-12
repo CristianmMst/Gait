@@ -45,7 +45,7 @@ export class MercadoPagoService {
 
     const preferenceData = {
       items,
-      notification_url: `https://f8fe3047e0ba.ngrok-free.app/mercadopago/webhook`,
+      notification_url: `https://41d97d6e68a9.ngrok-free.app/mercadopago/webhook`,
       external_reference: orderId.toString(),
       payment_methods: {
         installments: 6,
