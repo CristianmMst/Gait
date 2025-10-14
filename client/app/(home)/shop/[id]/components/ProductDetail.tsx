@@ -15,6 +15,7 @@ import { TYPE_USERS } from "@/app/shared/enums/user";
 import { useCart } from "@/app/context/CartContext";
 import { deleteProductAction } from "../../actions/deleteProduct";
 import { EditProductModal } from "./EditProductModal";
+import { DeleteProductModal } from "./DeleteProductModal";
 import { Product, Brand, Category } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 
@@ -44,14 +45,12 @@ export function ProductDetail({
   };
 
   const handleDeleteProduct = () => {
-    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-      startTransition(async () => {
-        const result = await deleteProductAction(product.id);
-        if (result && !result.success) {
-          alert(result.message);
-        }
-      });
-    }
+    startTransition(async () => {
+      const result = await deleteProductAction(product.id);
+      if (result && !result.success) {
+        alert(result.message);
+      }
+    });
   };
 
   const isAdmin = user?.type === TYPE_USERS.ADMIN;
@@ -148,7 +147,7 @@ export function ProductDetail({
                   <button
                     type="button"
                     disabled={isPending}
-                    onClick={handleDeleteProduct}
+                    popoverTarget={`delete-product-modal-${product.id}`}
                     className="flex items-center text-red-500 hover:text-red-400 text-lg rounded-md cursor-pointer transition-colors disabled:opacity-50"
                     title="Eliminar producto"
                   >
@@ -160,6 +159,11 @@ export function ProductDetail({
                 product={product}
                 brands={brands}
                 categories={categories}
+              />
+              <DeleteProductModal
+                productId={product.id}
+                productName={product.name}
+                onConfirm={handleDeleteProduct}
               />
             </div>
           </div>
