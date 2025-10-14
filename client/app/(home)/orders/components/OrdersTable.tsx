@@ -1,31 +1,19 @@
 "use client";
 
 import { Order } from "../actions/getOrders";
-import { CreditCard, Eye } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import { OrderDetailModal } from "./OrderDetailModal";
-import {
-  PaymentState,
-  createPaymentPreference,
-} from "../actions/createPayment";
-import { useActionState, useEffect, useRef } from "react";
+import { DeleteOrderModal } from "@/app/shared/components/DeleteOrderModal";
+import { deleteOrder } from "../actions/deleteOrder";
 
 interface OrdersTableProps {
   orders: Order[];
   canPay: boolean;
+  canDelete: boolean;
 }
 
-const initialState: PaymentState = {
-  success: false,
-};
-
-export function OrdersTable({ orders, canPay }: OrdersTableProps) {
-  const [state, formAction, isPending] = useActionState(
-    createPaymentPreference,
-    initialState
-  );
-  const currentOrderIdRef = useRef<number | null>(null);
-
+export function OrdersTable({ orders, canPay, canDelete }: OrdersTableProps) {
   const getStatusBadge = (status: "PENDING" | "COMPLETED" | "FAILED") => {
     const styles = {
       PENDING: "bg-yellow-500 text-yellow-950",
@@ -48,6 +36,18 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
     );
   };
 
+  const handleDeleteOrder = async (orderId: number) => {
+    try {
+      const result = await deleteOrder(orderId);
+
+      if (!result.success) {
+        console.error("Error al eliminar la orden:", result.error);
+      }
+    } catch (error) {
+      console.error("Error inesperado al eliminar la orden:", error);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
       year: "numeric",
@@ -55,17 +55,6 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
       day: "numeric",
     });
   };
-
-  useEffect(() => {
-    if (state.success && state.paymentUrl) {
-      // Abrir el link de pago en una nueva ventana
-      window.open(state.paymentUrl, "_blank", "noopener,noreferrer");
-      currentOrderIdRef.current = null;
-    } else if (state.error) {
-      console.error("Error al crear preferencia:", state.error);
-      currentOrderIdRef.current = null;
-    }
-  }, [state]);
 
   if (orders.length === 0) {
     return (
@@ -100,7 +89,7 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
                 <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Estado de Pago
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
@@ -131,55 +120,23 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
                       ? getStatusBadge(order.payments[0].status)
                       : getStatusBadge("PENDING")}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex gap-x-6">
+                  <td className="flex items-center gap-x-4 justify-center px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button
+                      type="button"
+                      popoverTarget={`order-modal-${order.id}`}
+                      className="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                    >
+                      <Eye />
+                    </button>
+                    {canDelete && (
                       <button
                         type="button"
-                        popoverTarget={`order-modal-${order.id}`}
-                        className="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                        popoverTarget={`delete-order-modal-${order.id}`}
+                        className="flex items-center gap-x-2 transition-colors cursor-pointer text-red-400 hover:text-red-300"
                       >
-                        <Eye />
-                        Ver
+                        <Trash2 />
                       </button>
-                      {canPay &&
-                        order.payments &&
-                        order.payments.length > 0 &&
-                        (order.payments[0].status === "PENDING" ||
-                          order.payments[0].status === "FAILED") && (
-                          <form
-                            action={formAction}
-                            onSubmit={() => {
-                              currentOrderIdRef.current = order.id;
-                            }}
-                          >
-                            <input
-                              type="hidden"
-                              name="orderId"
-                              value={order.id}
-                            />
-                            <button
-                              type="submit"
-                              disabled={
-                                isPending &&
-                                currentOrderIdRef.current === order.id
-                              }
-                              className={`flex items-center gap-x-2 font-semibold transition-colors p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
-                                order.payments[0].status === "FAILED"
-                                  ? "bg-orange-400 text-orange-950 hover:bg-orange-500"
-                                  : "bg-green-400 text-green-950 hover:bg-green-500"
-                              }`}
-                            >
-                              <CreditCard />
-                              {isPending &&
-                              currentOrderIdRef.current === order.id
-                                ? "Procesando..."
-                                : order.payments[0].status === "FAILED"
-                                ? "Reintentar"
-                                : "Pagar"}
-                            </button>
-                          </form>
-                        )}
-                    </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -197,6 +154,15 @@ export function OrdersTable({ orders, canPay }: OrdersTableProps) {
           formatDate={formatDate}
         />
       ))}
+
+      {canDelete &&
+        orders.map((order) => (
+          <DeleteOrderModal
+            key={`delete-modal-${order.id}`}
+            orderId={order.id}
+            onConfirm={() => handleDeleteOrder(order.id)}
+          />
+        ))}
     </>
   );
 }

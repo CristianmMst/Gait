@@ -49,7 +49,6 @@ export function OrderDetailModal({
 
   useEffect(() => {
     if (state.success && state.paymentUrl) {
-      // Abrir el link de pago en una nueva ventana
       window.open(state.paymentUrl, "_blank", "noopener,noreferrer");
       closeModal();
     } else if (state.error) {
@@ -191,7 +190,7 @@ export function OrderDetailModal({
                         <button
                           type="submit"
                           disabled={isPending}
-                          className={`px-6 py-2 rounded-lg font-semibold transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                          className={`px-6 py-2 rounded-lg font-semibold transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
                             order.payments[0].status === "FAILED"
                               ? "bg-orange-600 text-white hover:bg-orange-700"
                               : "bg-green-600 text-white hover:bg-green-700"

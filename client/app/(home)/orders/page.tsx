@@ -16,6 +16,9 @@ export default async function OrdersPage() {
     (user.type === TYPE_USERS.DISTRIBUTOR ||
       (user.type === TYPE_USERS.EMPLOYEE && user.role === ROLE.ADMIN));
 
+  const canDelete =
+    user.type === TYPE_USERS.EMPLOYEE && user.role === ROLE.ADMIN;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -27,7 +30,7 @@ export default async function OrdersPage() {
         </p>
       </div>
 
-      <OrdersTable orders={orders} canPay={canPay} />
+      <OrdersTable orders={orders} canPay={canPay} canDelete={canDelete} />
     </div>
   );
 }

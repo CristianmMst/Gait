@@ -2,8 +2,10 @@
 
 import { Order } from "../../../orders/actions/getOrders";
 import { formatPrice } from "@/lib/utils/formatPrice";
-import { Eye } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { AdminOrderDetailModal } from "./AdminOrderDetailModal";
+import { DeleteOrderModal } from "@/app/shared/components/DeleteOrderModal";
+import { deleteOrder } from "../actions/deleteOrder";
 
 interface AdminOrdersTableProps {
   orders: Order[];
@@ -30,6 +32,18 @@ export function AdminOrdersTable({ orders }: AdminOrdersTableProps) {
         {labels[status]}
       </span>
     );
+  };
+
+  const handleDeleteOrder = async (orderId: number) => {
+    try {
+      const result = await deleteOrder(orderId);
+
+      if (!result.success) {
+        console.error("Error al eliminar la orden:", result.error);
+      }
+    } catch (error) {
+      console.error("Error inesperado al eliminar la orden:", error);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -99,7 +113,7 @@ export function AdminOrdersTable({ orders }: AdminOrdersTableProps) {
                     {order.employee.name} {order.employee.lastname}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-white">
-                    {formatPrice(Number(order.total))}
+                    ${formatPrice(Number(order.total))}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {order.payments && order.payments.length > 0
@@ -107,14 +121,22 @@ export function AdminOrdersTable({ orders }: AdminOrdersTableProps) {
                       : getStatusBadge("PENDING")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      type="button"
-                      popoverTarget={`admin-order-modal-${order.id}`}
-                      className="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
-                    >
-                      <Eye />
-                      Ver Detalles
-                    </button>
+                    <div className="flex items-center gap-x-4">
+                      <button
+                        type="button"
+                        popoverTarget={`admin-order-modal-${order.id}`}
+                        className="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                      >
+                        <Eye />
+                      </button>
+                      <button
+                        type="button"
+                        popoverTarget={`delete-order-modal-${order.id}`}
+                        className="flex items-center gap-x-2 transition-colors cursor-pointer text-red-400 hover:text-red-300"
+                      >
+                        <Trash2 />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -129,6 +151,14 @@ export function AdminOrdersTable({ orders }: AdminOrdersTableProps) {
           order={order}
           getStatusBadge={getStatusBadge}
           formatDate={formatDate}
+        />
+      ))}
+
+      {orders.map((order) => (
+        <DeleteOrderModal
+          key={`delete-modal-${order.id}`}
+          orderId={order.id}
+          onConfirm={() => handleDeleteOrder(order.id)}
         />
       ))}
     </>
