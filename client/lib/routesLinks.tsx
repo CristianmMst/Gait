@@ -7,6 +7,7 @@ import {
   UserPlus,
   Plus,
   ClipboardList,
+  Package,
 } from "lucide-react";
 
 interface Route {
@@ -19,16 +20,30 @@ interface Route {
 
 export const routesAdmin: Route[] = [
   {
-    name: "Registar distribuidor",
-    path: "/admin/signup_distributor",
-    icon: <UserPlus />,
+    name: "Productos",
+    path: "/admin/products",
+    icon: <Package />,
     types: [TYPE_USERS.ADMIN],
     roles: [ROLE.ADMIN],
+  },
+  {
+    name: "Crear producto",
+    path: "/admin/add_product",
+    icon: <Plus />,
+    roles: [ROLE.ADMIN],
+    types: [TYPE_USERS.ADMIN],
   },
   {
     name: "Historial de pedidos",
     path: "/admin/orders",
     icon: <ClipboardList />,
+    types: [TYPE_USERS.ADMIN],
+    roles: [ROLE.ADMIN],
+  },
+  {
+    name: "Registar distribuidor",
+    path: "/admin/signup_distributor",
+    icon: <UserPlus />,
     types: [TYPE_USERS.ADMIN],
     roles: [ROLE.ADMIN],
   },
@@ -46,7 +61,7 @@ export const routes: Route[] = [
     name: "Tienda",
     path: "/shop",
     icon: <Store />,
-    types: [TYPE_USERS.ADMIN, TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
+    types: [TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
     roles: [ROLE.ADMIN, ROLE.MODERATOR],
   },
   {
@@ -69,12 +84,5 @@ export const routes: Route[] = [
     icon: <UserPlus />,
     roles: [ROLE.ADMIN],
     types: [TYPE_USERS.DISTRIBUTOR, TYPE_USERS.EMPLOYEE],
-  },
-  {
-    name: "Crear producto",
-    path: "/admin/add_product",
-    icon: <Plus />,
-    roles: [ROLE.ADMIN],
-    types: [TYPE_USERS.ADMIN],
   },
 ];

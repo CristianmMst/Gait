@@ -32,16 +32,15 @@ export function EditProductModal({
   useEffect(() => {
     if (state?.success) {
       handleClose();
-      window.location.reload();
     }
   }, [state?.success]);
 
   return (
     <div
       ref={popoverRef}
-      id="edit-product-popover"
+      id={`edit-product-modal-${product.id}`}
       popover="auto"
-      className="bg-zinc-950 rounded-lg text-white w-full max-w-2xl border border-zinc-900 m-auto"
+      className="popover bg-zinc-950 rounded-lg text-white w-full max-w-2xl border border-zinc-900 m-auto"
     >
       <div className="sticky top-0 border-b border-zinc-800 p-4 flex items-center justify-between bg-zinc-950">
         <h2 className="text-2xl font-bold flex items-center gap-2">
@@ -61,6 +60,12 @@ export function EditProductModal({
         {state?.message && !state?.success && (
           <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded">
             {state.message}
+          </div>
+        )}
+
+        {state?.success && (
+          <div className="bg-green-500/10 border border-green-500 text-green-500 px-4 py-3 rounded">
+            Producto actualizado correctamente
           </div>
         )}
 

@@ -2,37 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
-import {
-  Trash2,
-  CircleX,
-  ArrowLeft,
-  ShoppingCart,
-  CircleCheckBig,
-  Pencil,
-} from "lucide-react";
-import { TYPE_USERS } from "@/app/shared/enums/user";
+import { useState } from "react";
+import { CircleX, ArrowLeft, ShoppingCart, CircleCheckBig } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
-import { deleteProductAction } from "../../actions/deleteProduct";
-import { EditProductModal } from "./EditProductModal";
-import { DeleteProductModal } from "./DeleteProductModal";
-import { Product, Brand, Category } from "@/lib/types";
+import { TYPE_USERS } from "@/app/shared/enums/user";
+import { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 
 export function ProductDetail({
   product,
-  user,
-  brands,
-  categories,
+  userType,
 }: {
   product: Product;
-  user?: { type: TYPE_USERS; name: string } | null;
-  brands: Brand[];
-  categories: Category[];
+  userType?: TYPE_USERS | null;
 }) {
   const { items, addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-  const [isPending, startTransition] = useTransition();
 
   const cartItem = items.find((item) => item.id === product.id);
   const currentCartQuantity = cartItem?.amount || 0;
@@ -44,22 +29,13 @@ export function ProductDetail({
     }
   };
 
-  const handleDeleteProduct = () => {
-    startTransition(async () => {
-      const result = await deleteProductAction(product.id);
-      if (result && !result.success) {
-        alert(result.message);
-      }
-    });
-  };
-
-  const isAdmin = user?.type === TYPE_USERS.ADMIN;
+  const backLink = userType === TYPE_USERS.ADMIN ? "/admin/products" : "/shop";
 
   return (
     <div className="p-8">
-      <Link href="/shop" className="flex items-center gap-x-2">
+      <Link href={backLink} className="flex items-center gap-x-2">
         <ArrowLeft />
-        <span>Volver a la tienda</span>
+        <span>Volver</span>
       </Link>
       <div className="flex gap-x-8 mt-6">
         <Image
@@ -119,53 +95,19 @@ export function ProductDetail({
               </p>
             )}
 
-            <div className="flex items-center justify-between mt-4 w-96">
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={product.stock <= 0 || availableStock <= 0}
-                className="flex gap-x-4 items-center self-start text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600 w-60"
-              >
-                <ShoppingCart size={25} />
-                {product.stock <= 0
-                  ? "Sin stock"
-                  : availableStock <= 0
-                  ? "Stock en carrito"
-                  : "Agregar al carrito"}
-              </button>
-
-              {isAdmin && (
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    popoverTarget="edit-product-popover"
-                    className="flex items-center text-blue-500 hover:text-blue-400 text-lg rounded-md cursor-pointer transition-colors"
-                    title="Editar producto"
-                  >
-                    <Pencil size={25} />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={isPending}
-                    popoverTarget={`delete-product-modal-${product.id}`}
-                    className="flex items-center text-red-500 hover:text-red-400 text-lg rounded-md cursor-pointer transition-colors disabled:opacity-50"
-                    title="Eliminar producto"
-                  >
-                    <Trash2 size={25} />
-                  </button>
-                </div>
-              )}
-              <EditProductModal
-                product={product}
-                brands={brands}
-                categories={categories}
-              />
-              <DeleteProductModal
-                productId={product.id}
-                productName={product.name}
-                onConfirm={handleDeleteProduct}
-              />
-            </div>
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={product.stock <= 0 || availableStock <= 0}
+              className="flex gap-x-4 items-center self-start text-lg bg-primary px-4 py-2 rounded-md shadow cursor-pointer hover:bg-primary/80 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600 mt-4"
+            >
+              <ShoppingCart size={25} />
+              {product.stock <= 0
+                ? "Sin stock"
+                : availableStock <= 0
+                ? "Stock en carrito"
+                : "Agregar al carrito"}
+            </button>
           </div>
         </div>
       </div>

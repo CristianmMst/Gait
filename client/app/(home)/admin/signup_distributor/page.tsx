@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { config } from "@/lib/config";
-import { generateToken } from "../actions/generate_token";
+import { generateToken } from "../actions/generateToken";
 import { RotateCcw, Copy, Link, CopyCheck } from "lucide-react";
 
 export default function SignupDistributor() {

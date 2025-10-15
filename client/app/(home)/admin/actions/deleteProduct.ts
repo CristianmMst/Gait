@@ -36,13 +36,17 @@ export async function deleteProductAction(productId: number) {
 
     revalidatePath("/shop");
     revalidatePath("/shop/[id]", "page");
+    revalidatePath("/admin/products");
     revalidatePath("/", "layout");
+
+    return {
+      success: true,
+      message: "Producto eliminado correctamente",
+    };
   } catch {
     return {
       success: false,
       message: "Error de conexión. Intenta nuevamente.",
     };
   }
-
-  redirect("/shop");
 }
