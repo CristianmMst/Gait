@@ -16,7 +16,7 @@ jest.mock('@/config', () => ({
   JWT_SECRET: 'test_secret'
 }));
 
-import AuthService from '../../server/src/modules/auth/authService';
+import AuthService from '../../src/modules/auth/authService';
 import { compareSync } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

@@ -83,7 +83,7 @@ const resultado = await cambiarEstado(1, 'pagado');
       invalidate: jest.fn(), 
 
     }; 
-logout = (token: string) => { 
+const logout = (token: string) => { 
 
 return tokenService.invalidate(token); 
 

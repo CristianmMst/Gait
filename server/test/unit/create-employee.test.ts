@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import EmployeeService from '../../server/src/modules/employees/employeeService';
+import EmployeeService from '../../src/modules/employees/employeeService';
 
 // IMPORTANTE: El nombre debe empezar con la palabra 'mock'
 const mockSaveFn = jest.fn();

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 // 1. Importación sin llaves por ser 'export default'
-import DistributorService from '../../server/src/modules/distributors/distributorService';
+import DistributorService from '../../src/modules/distributors/distributorService';
 
 // Mock de la base de datos
 jest.mock('@/database', () => ({

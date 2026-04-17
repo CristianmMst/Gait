@@ -19,12 +19,12 @@ jest.mock('@/config', () => ({
   JWT_SECRET: 'test_secret'
 }));
 
-jest.mock('../../server/src/modules/mercadopago/mercadopagoService', () => ({
+jest.mock('../../src/modules/mercadopago/mercadopagoService', () => ({
   MercadoPagoService: jest.fn().mockImplementation(() => ({}))
 }));
 
-import App from '../../server/src/app';
-import AppRouter from '../../server/src/routes';
+import App from '../../src/app';
+import AppRouter from '../../src/routes';
 
 const serverInstance = new (App as any)({ port: 4000, routes: AppRouter.routes });
 const server = serverInstance.app;
