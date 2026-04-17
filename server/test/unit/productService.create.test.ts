@@ -5,8 +5,8 @@ jest.mock("@/database", () => ({
 }));
 
 import { AppDataSource } from "@/database";
-import { Product } from "./productModel";
-import { ProductService } from "./productService";
+import { Product } from "../../src/modules/products/productModel";
+import { ProductService } from "../../src/modules/products/productService";
 
 describe("ProductService.create", () => {
   let mockCreate: jest.Mock;

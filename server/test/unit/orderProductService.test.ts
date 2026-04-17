@@ -1,7 +1,7 @@
-import { Order } from "../orders/orderModel";
-import { Product } from "../products/productModel";
-import { OrderProduct } from "./orderProductModel";
-import { OrderProductService } from "./orderProductService";
+import { Order } from "../../src/modules/orders/orderModel";
+import { Product } from "../../src/modules/products/productModel";
+import { OrderProduct } from "../../src/modules/order_products/orderProductModel";
+import { OrderProductService } from "../../src/modules/order_products/orderProductService";
 
 describe("OrderProductService.createWithTransaction", () => {
   it("calcula el subtotal y actualiza el total y el stock", async () => {
