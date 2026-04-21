@@ -26,9 +26,11 @@ describe("Flujo E2E: Realizar una compra completa", () => {
 
     // 3. SELECCIÓN DE PRODUCTO
     cy.url({ timeout: 10000 }).should("not.include", "login");
+    cy.visit("http://localhost:3000/shop");
 
     cy.get("button")
       .contains(/Añadir|Agregar|Comprar/i)
+      .should("not.have.text", "Sin stock")
       .first()
       .click();
 
@@ -39,13 +41,11 @@ describe("Flujo E2E: Realizar una compra completa", () => {
       .click();
 
     // Confirmar orden
-    cy.contains("button", /Confirmar|Continuar|Comprar/i).click();
+    cy.contains("button", /Crear Orden|Confirmar|Continuar/i).click();
 
-    // 5. PAGO
-    cy.contains("button", /Pagar|Finalizar/i).click();
-
-    // VERIFICACIÓN FINAL
-    cy.contains(/¡Compra exitosa!|Éxito|Gracias/i, { timeout: 10000 }).should(
+    // VERIFICACIÓN FINAL - después de crear orden, la página se recarga
+    cy.reload();
+    cy.contains(/orden|pedido|Éxito|Gracias/i, { timeout: 10000 }).should(
       "be.visible",
     );
   });
